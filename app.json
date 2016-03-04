@@ -1,13 +1,13 @@
 {
-    "id": "nl.marcovandenhout.marantz",
+    "id": "nl.marcovantklooster.pioneer",
     "name": {
-        "en": "Marantz"
+        "en": "Pioneer"
     },
     "version": "0.0.4",
     "compatibility": "0.x || 1.x",
     "author": {
-        "name": "Marco van den Hout",
-        "email": "marco@vandenhout.org"
+        "name": "Marco van 't Klooster",
+        "email": "info@marcovantklooster.nl"
     },
     "images": {
       "large": "./assets/images/large.jpg",
@@ -15,8 +15,8 @@
     },
     "category": "appliances",
     "description": {
-    "en": "Marantz IP control app for Homey",
-    "nl": "Dit is een Marantz IP aansturing app voor Homey"
+    "en": "Pioneer VSX control app for Homey",
+    "nl": "Dit is een Pioneer VSX aansturing app voor Homey"
     },
     "dependencies": {
     		"net": "*"
@@ -25,8 +25,8 @@
       {
           "id": "amplifier",
           "name": {
-              "en": "Marantz amplifier",
-              "nl": "Marantz versterker"
+              "en": "Pioneer amplifier",
+              "nl": "Pioneer versterker"
           },
           "images": {
               "large": "drivers/amplifier/assets/images/large.jpg",
@@ -68,20 +68,6 @@
                   "en": "Select amplifier",
                   "nl": "Selecteer versterker"
                 }
-              },
-              {
-                "name": "zone",
-                "type": "dropdown",
-                "values": [
-                  { "id": "Whole unit", "label": {
-                     "en": "Whole unit",
-                     "nl": "Gehele apparaat"
-                     }
-                  },
-                  { "id": "Main Zone", "label": { "en": "Main Zone" }},
-                  { "id": "Zone2", "label": { "en": "Zone 2" }}
-                ],
-                "placeholder": { "en": "Zone" }
               }
             ]
         },
@@ -99,20 +85,6 @@
                   "en": "Select amplifier",
                   "nl": "Selecteer versterker"
                 }
-              },
-              {
-                "name": "zone",
-                "type": "dropdown",
-                "values": [
-                  { "id": "Whole unit", "label": {
-                     "en": "Whole unit",
-                     "nl": "Gehele apparaat"
-                     }
-                  },
-                  { "id": "Main Zone", "label": { "en": "Main Zone" }},
-                  { "id": "Zone2", "label": { "en": "Zone 2" }}
-                ],
-                "placeholder": { "en": "Zone" }
               }
             ]
         },
@@ -124,38 +96,20 @@
             },
             "args": [
               {
-                "name": "input",
-                "type": "autocomplete",
-                "placeholder": {
-                  "en": "input",
-                  "nl": "input"
-                }
-              },
-              {
                 "name": "device",
                 "type": "device",
                 "placeholder": {
                   "en": "Select amplifier",
                   "nl": "Selecteer versterker"
                 }
-              },
-              {
-                "name": "zone",
-                "type": "dropdown",
-                "values": [
-                  { "id": "Main Zone", "label": { "en": "Main Zone" }},
-                  { "id": "Zone2", "label": { "en": "Zone 2" }},
-                  { "id": "Zone3", "label": { "en": "Zone 3" }}
-                ],
-                "placeholder": { "en": "Zone" }
               }
             ]
         },
         {
             "id": "mute",
             "title": {
-                "en": "Mute",
-                "nl": "Mute"
+                "en": "Toggle Mute",
+                "nl": "Mute aan/uit"
             },
             "args": [
               {
@@ -165,24 +119,14 @@
                   "en": "Select amplifier",
                   "nl": "Selecteer versterker"
                 }
-              },
-              {
-                "name": "zone",
-                "type": "dropdown",
-                "values": [
-                  { "id": "Main Zone", "label": { "en": "Main Zone" }},
-                  { "id": "Zone2", "label": { "en": "Zone 2" }},
-                  { "id": "Zone3", "label": { "en": "Zone 3" }}
-                ],
-                "placeholder": { "en": "Zone" }
               }
             ]
         },
         {
-            "id": "unMute",
+            "id": "volumeUp",
             "title": {
-                "en": "Turn mute off",
-                "nl": "Zet mute uit"
+                "en": "Volume up",
+                "nl": "Volume omhoog"
             },
             "args": [
               {
@@ -192,52 +136,42 @@
                   "en": "Select amplifier",
                   "nl": "Selecteer versterker"
                 }
-              },
-              {
-                "name": "zone",
-                "type": "dropdown",
-                "values": [
-                  { "id": "Main Zone", "label": { "en": "Main Zone" }},
-                  { "id": "Zone2", "label": { "en": "Zone 2" }},
-                  { "id": "Zone3", "label": { "en": "Zone 3" }}
-                ],
-                "placeholder": { "en": "Zone" }
               }
-            ]
-        },
-        {
-            "id": "setVolume",
-            "title": {
-                "en": "Change volume",
-                "nl": "Verander volume"
-            },
-            "args": [
-              {
-                "name": "device",
-                "type": "device",
-                "placeholder": {
-                  "en": "Select amplifier",
-                  "nl": "Selecteer versterker"
-                }
-              },
-              {
-                "name": "zone",
-                "type": "dropdown",
-                "values": [
-                  { "id": "Main Zone", "label": { "en": "Main Zone" }},
-                  { "id": "Zone2", "label": { "en": "Zone 2" }},
-                  { "id": "Zone3", "label": { "en": "Zone 3" }}
-                ],
-                "placeholder": { "en": "Zone" }
-              },
               {
                 "name": "volume",
                 "type": "number",
                 "min": 0,
                 "max": 99,
                 "placeholder": {
-                   "en": "Target volume",
-                   "nl": "Gewenst volume"
+                   "en": "Steps volume up",
+                   "nl": "Stappen volume omhoog"
+                }
+              }
+            ]
+        },
+        {
+            "id": "volumeDown",
+            "title": {
+                "en": "Volume down",
+                "nl": "Volume omlaag"
+            },
+            "args": [
+              {
+                "name": "device",
+                "type": "device",
+                "placeholder": {
+                  "en": "Select amplifier",
+                  "nl": "Selecteer versterker"
+                }
+              }
+              {
+                "name": "volume",
+                "type": "number",
+                "min": 0,
+                "max": 99,
+                "placeholder": {
+                   "en": "Steps volume down",
+                   "nl": "Stappen volume oplaag"
                 }
               }
             ]
