@@ -91,8 +91,8 @@ module.exports.pair = function(socket) {
 	});
 	socket.on('disconnect', function() {
 		console.log("Pioneer app - User aborted pairing, or pairing is finished");
-	})
-}
+	});
+};
 // flow action handlers
 Homey.manager('flow').on('action.powerOn', function(callback, args) {
 	var tempIP = args.device.ipaddress;
@@ -122,7 +122,6 @@ Homey.manager('flow').on('action.volumeUp', function(callback, args) {
 	volumeUp(tempIP, targetVolume);
 	callback(null, true); // we've fired successfully
 });
-
 Homey.manager('flow').on('action.volumeDown', function(callback, args) {
 	var tempIP = args.device.ipaddress;
 	var targetVolume = args.volume;
@@ -153,20 +152,17 @@ function mute(hostIP) {
 
 function volumeUp(hostIP, targetVolume) {
 	var command = 'VU';
-	for(var i = 0; i < targetVolume; i++)
-	{
+	for (var i = 0; i < targetVolume; i++) {
 		sendCommand(hostIP, command);
 	}
 }
 
 function volumeDown(hostIP, targetVolume) {
 	var command = 'VD';
-	for(var i = 0; i < targetVolume; i++)
-	{
+	for (var i = 0; i < targetVolume; i++) {
 		sendCommand(hostIP, command);
 	}
 }
-
 //
 
 function sendCommand(hostIP, command) {
