@@ -1,5 +1,4 @@
 <script>
-
 Homey.setTitle( __('pair.start.title') );
 
 Homey.on('error', function( errortype, callback ){
@@ -16,9 +15,7 @@ Homey.on('error', function( errortype, callback ){
 })
 
 Homey.on('continue', function( success, callback ){
-
 		Homey.showView('list_devices');
-
 })
 
 function saveSettings () {
@@ -47,13 +44,10 @@ function saveSettings () {
 		Homey.done();
 
 	}
-
 }
 
 </script>
-
     <p data-i18n="pair.start.intro">enter IP address and name</p>
-
 		<style>
 			.pairSettings {
 				font-size:16px;
@@ -73,10 +67,9 @@ function saveSettings () {
 			</tr>
 			<tr>
 				<td style="width:100px;" data-i18n="pair.start.deviceName">Name</td>
-				<td><input id="deviceName" type="text" value="Marantz AVR" placeholder=""/></td>
+				<td><input id="deviceName" type="text" value="Pioneer VSX" placeholder=""/></td>
 			</tr>
 		</table>
-
 		<p>
 		&nbsp;
 	  </p>

@@ -1,43 +1,42 @@
 var net = require('net');
 var tempIP = '';
-var telnetPort = 23;
-
+var telnetPort = 8102;
 var allPossibleInputs = [{
-	inputName: "05FN",
-	friendlyName: "TV/SAT"
-}, {
-	inputName: "01FN",
-	friendlyName: "CD"
-}, {
-	inputName: "03FN",
-	friendlyName: "CD-R/TAPE"
+	inputName: "25FN",
+	friendlyName: "BD"
 }, {
 	inputName: "04FN",
 	friendlyName: "DVD"
 }, {
-	inputName: "19FN",
-	friendlyName: "HDMI1"
-}, {
-	inputName: "05FN",
-	friendlyName: "TV/SAT"
-}, {
-	inputName: "00FN",
-	friendlyName: "PHONO"
-}, {
-	inputName: "03FN",
-	friendlyName: "CD-R/TAPE"
-}, {
-	inputName: "26FN",
-	friendlyName: "HOME MEDIA GALLERY(Internet Radio)"
-}, {
 	inputName: "15FN",
 	friendlyName: "DVR/BDR"
 }, {
+	inputName: "06FN",
+	friendlyName: "SAT/CBL"
+}, {
+	inputName: "FN49",
+	friendlyName: "GAME"
+}, {
+	inputName: "01FN",
+	friendlyName: "CD"
+}, {
 	inputName: "05FN",
-	friendlyName: "TV/SAT"
+	friendlyName: "TV"
+}, {
+	inputName: "02FN",
+	friendlyName: "Tuner"
+}, {
+	inputName: "38FN",
+	friendlyName: "Internet Radio"
+}, {
+	inputName: "45FN",
+	friendlyName: "Favorites"
+}, {
+	inputName: "17FN",
+	friendlyName: "iPod/USB"
 }, {
 	inputName: "10FN",
-	friendlyName: "VIDEO 1(VIDEO)"
+	friendlyName: "VIDEO 1"
 }, {
 	inputName: "14FN",
 	friendlyName: "VIDEO 2"
@@ -60,14 +59,16 @@ var allPossibleInputs = [{
 	inputName: "24FN",
 	friendlyName: "HDMI6"
 }, {
-	inputName: "25FN",
-	friendlyName: "BD"
+	inputName: "48FN",
+	friendlyName: "MHL"
 }, {
-	inputName: "17FN",
-	friendlyName: "iPod/USB"
+	inputName: "03FN",
+	friendlyName: "CD-R/TAPE"
+}, {
+	inputName: "00FN",
+	friendlyName: "PHONO"
 }];
-
-module.exports.pair = function( socket ) {
+module.exports.pair = function(socket) {
 	// socket is a direct channel to the front-end
 	// this method is run when Homey.emit('list_devices') is run on the front-end
 	// which happens when you use the template `list_devices`
@@ -89,7 +90,6 @@ module.exports.pair = function( socket ) {
 		tempDeviceName = data.deviceName;
 		console.log("Pioneer app - got get_devices from front-end, tempIP =", tempIP);
 		// FIXME: should check if IP leads to an actual Pioneer device
-
 		// assume IP is OK and continue
 		socket.emit('continue', null);
 	});
@@ -115,10 +115,10 @@ Homey.manager('flow').on('action.changeInput', function(callback, args) {
 	changeInputSource(tempIP, input);
 	callback(null, true); // we've fired successfully
 });
-Homey.manager('flow').on('action.mute', function(callback, args) {
-	var tempIP = args.device.ipaddress;
-	mute(tempIP);
-	callback(null, true); // we've fired successfully
+Homey.manager('flow').on('action.changeInput.input.autocomplete', function(callback, value) {
+	var inputSearchString = value.query;
+	var items = searchForInputsByValue(inputSearchString);
+	callback(null, items);
 });
 Homey.manager('flow').on('action.volumeUp', function(callback, args) {
 	var tempIP = args.device.ipaddress;
@@ -132,7 +132,6 @@ Homey.manager('flow').on('action.volumeDown', function(callback, args) {
 	volumeDown(tempIP, targetVolume);
 	callback(null, true); // we've fired successfully
 });
-//
 
 function powerOn(hostIP) {
 	var command = 'PO';
@@ -149,21 +148,16 @@ function changeInputSource(hostIP, input) {
 	sendCommand(hostIP, command);
 }
 
-function mute(hostIP) {
-	var command = 'MZ';
-	sendCommand(hostIP, command);
-}
-
 function volumeUp(hostIP, targetVolume) {
 	var command = 'VU';
-	for (var i = 0; i < targetVolume; i++) {
+	for (var i = 0; i < parseInt(targetVolume); i++) {
 		sendCommand(hostIP, command);
 	}
 }
 
 function volumeDown(hostIP, targetVolume) {
 	var command = 'VD';
-	for (var i = 0; i < targetVolume; i++) {
+	for (var i = 0; i < parseInt(targetVolume); i++) {
 		sendCommand(hostIP, command);
 	}
 }
@@ -173,8 +167,11 @@ function sendCommand(hostIP, command) {
 	console.log("Pioneer app - sending " + command + "\n to " + hostIP);
 	var client = new net.Socket();
 	client.connect(telnetPort, hostIP);
-	client.write(command);
+	client.write(command + "\r");
 	client.end();
+	client.on('error', function(err) {
+		console.log('error:', err.message);
+	});
 }
 
 function searchForInputsByValue(value) {
