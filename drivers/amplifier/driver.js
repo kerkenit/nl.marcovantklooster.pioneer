@@ -76,7 +76,7 @@ module.exports.pair = function(socket) {
 				id: tempIP,
 				ipaddress: tempIP
 			},
-			name: 'Pioneer amp'
+			name: tempDeviceName
 		}];
 		callback(null, devices);
 	});
@@ -84,6 +84,7 @@ module.exports.pair = function(socket) {
 	socket.on('get_devices', function(data, callback) {
 		// Set passed pair settings in variables
 		tempIP = data.ipaddress;
+		tempDeviceName = data.deviceName;
 		console.log("Pioneer app - got get_devices from front-end, tempIP =", tempIP);
 		// FIXME: should check if IP leads to an actual Pioneer device
 		// assume IP is OK and continue
@@ -174,7 +175,7 @@ function sendCommand(hostIP, command) {
 }
 
 function searchForInputsByValue(value) {
-	// for now, consider all known Pioneer/Denon inputs
+	// for now, consider all known Pioneer inputs
 	var possibleInputs = allPossibleInputs;
 	var tempItems = [];
 	for (var i = 0; i < possibleInputs.length; i++) {
