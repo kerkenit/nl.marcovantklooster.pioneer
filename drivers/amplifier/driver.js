@@ -1,6 +1,7 @@
 var net = require('net');
 var tempIP = '';
 var telnetPort = 23;
+
 var allPossibleInputs = [{
 	inputName: "05FN",
 	friendlyName: "TV/SAT"
@@ -65,7 +66,8 @@ var allPossibleInputs = [{
 	inputName: "17FN",
 	friendlyName: "iPod/USB"
 }];
-module.exports.pair = function(socket) {
+
+module.exports.pair = function( socket ) {
 	// socket is a direct channel to the front-end
 	// this method is run when Homey.emit('list_devices') is run on the front-end
 	// which happens when you use the template `list_devices`
@@ -87,6 +89,7 @@ module.exports.pair = function(socket) {
 		tempDeviceName = data.deviceName;
 		console.log("Pioneer app - got get_devices from front-end, tempIP =", tempIP);
 		// FIXME: should check if IP leads to an actual Pioneer device
+
 		// assume IP is OK and continue
 		socket.emit('continue', null);
 	});
