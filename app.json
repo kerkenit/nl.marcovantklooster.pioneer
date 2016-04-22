@@ -1,22 +1,45 @@
 {
 	"id": "nl.marcovantklooster.pioneer",
 	"name": {
-		"en": "Pioneer"
+		"en": "Pioneer",
+		"nl": "Pioneer"
 	},
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"compatibility": "0.x || 1.x",
 	"author": {
 		"name": "Marco van 't Klooster",
 		"email": "info@marcovantklooster.nl"
 	},
+	"contributors": {
+        "developers": [
+            {
+	            "name": "Marco van den Hout",
+                "email": "marco@vandenhout.org"
+            },
+            {
+	            "name": "Raymond Julin",
+                "email": "raymond.julin@gmail.com"
+            }
+        ],
+        "translators": [
+            {
+	            "name": "Marco van 't Klooster",
+                "email": "info@marcovantklooster.nl",
+                "languages": [
+                	"nl",
+                	"en"
+                ]
+            }
+        ]
+    },
 	"images": {
 		"large": "./assets/images/large.jpg",
 		"small": "./assets/images/small.jpg"
 	},
 	"category": "appliances",
 	"description": {
-		"en": "Pioneer IP control app for Homey",
-		"nl": "Dit is een Pioneer IP aansturing app voor Homey"
+		"en": "Pioneer VSX control app for Homey",
+		"nl": "Dit is een Pioneer VSX aansturing app voor Homey"
 	},
 	"dependencies": {
 		"net": "*"
@@ -24,8 +47,8 @@
 	"drivers": [{
 		"id": "amplifier",
 		"name": {
-			"en": "Pioneer amplifier",
-			"nl": "Pioneer versterker"
+			"en": "Pioneer VSX amplifier",
+			"nl": "Pioneer VSX versterker"
 		},
 		"images": {
 			"large": "drivers/amplifier/assets/images/large.jpg",

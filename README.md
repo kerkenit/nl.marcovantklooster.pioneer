@@ -2,6 +2,12 @@
 
 This app lets you control a Pioneer VSX amplifier from within flows on a Homey device (by Athom).
 
-Special thanks to 
-[Marco van den Hout](https://github.com/hilvarenbeek) for the fork of his Marantz code
-[Raymond Julin](http://raymondjulin.com/2012/07/15/remote-control-your-pioneer-vsx-receiver-over-telnet/) for the char codes of the Pioneer VSX series
+What works:
+
+* Turn on and off you amplifier in a flow card
+* Set volume up and down in a flow card
+* Change the input source of you VSX amplifier in a card
+
+What doesn't:
+
+* Mute and unmute
