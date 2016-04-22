@@ -12,6 +12,10 @@
 	},
 	"contributors": {
         "developers": [
+	        {
+	            "name": "Marco van 't Klooster",
+				"email": "info@marcovantklooster.nl"
+            },
             {
 	            "name": "Marco van den Hout",
                 "email": "marco@vandenhout.org"
