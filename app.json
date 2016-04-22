@@ -11,31 +11,26 @@
 		"email": "info@marcovantklooster.nl"
 	},
 	"contributors": {
-        "developers": [
-	        {
-	            "name": "Marco van 't Klooster",
-				"email": "info@marcovantklooster.nl"
-            },
-            {
-	            "name": "Marco van den Hout",
-                "email": "marco@vandenhout.org"
-            },
-            {
-	            "name": "Raymond Julin",
-                "email": "raymond.julin@gmail.com"
-            }
-        ],
-        "translators": [
-            {
-	            "name": "Marco van 't Klooster",
-                "email": "info@marcovantklooster.nl",
-                "languages": [
-                	"nl",
-                	"en"
-                ]
-            }
-        ]
-    },
+		"developers": [{
+			"name": "Marco van 't Klooster",
+			"email": "info@marcovantklooster.nl"
+		}, {
+			"name": "Marco van den Hout",
+			"email": "marco@vandenhout.org"
+		}, {
+			"name": "Raymond Julin",
+			"email": "raymond.julin@gmail.com"
+		}],
+		"translators": [{
+			"name": "Marco van 't Klooster",
+			"email": "info@marcovantklooster.nl",
+			"languages": ["nl", "en"]
+		}, {
+			"name": "Marco van den Hout",
+			"email": "marco@vandenhout.org",
+			"languages": ["nl", "en"]
+		}]
+	},
 	"images": {
 		"large": "./assets/images/large.jpg",
 		"small": "./assets/images/small.jpg"
