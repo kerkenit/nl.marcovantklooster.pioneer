@@ -4,7 +4,7 @@
 		"en": "Pioneer",
 		"nl": "Pioneer"
 	},
-	"version": "0.0.7",
+	"version": "0.1.0",
 	"compatibility": "0.x || 1.x",
 	"author": {
 		"name": "Marco van 't Klooster",
@@ -60,7 +60,13 @@
 			"small": "drivers/amplifier/assets/images/small.jpg"
 		},
 		"class": "other",
-		"capabilities": [""],
+		"capabilities": ["onoff"],
+		"mobile": {
+			"components": [{
+				"id": "icon",
+				"capabilities": ["onoff"]
+			}]
+		},
 		"pair": [{
 			"id": "start"
 		}, {
