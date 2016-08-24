@@ -1,181 +1,243 @@
 {
-	"id": "nl.marcovantklooster.pioneer",
-	"name": {
-		"en": "Pioneer",
-		"nl": "Pioneer"
+	"id":"nl.marcovantklooster.pioneer",
+	"name":{
+		"en":"Pioneer",
+		"nl":"Pioneer"
 	},
-	"version": "0.1.0",
-	"compatibility": "0.x || 1.x",
-	"author": {
-		"name": "Marco van 't Klooster",
-		"email": "info@marcovantklooster.nl",
-		"website": "http://www.marcovantklooster.nl"
+	"version":"1.0.0",
+	"compatibility":"0.x || 1.x",
+	"author":{
+		"name":"Marco van 't Klooster",
+		"email":"info@marcovantklooster.nl",
+		"website":"http://www.marcovantklooster.nl"
 	},
-	"contributors": {
-		"developers": [{
-			"name": "Marco van 't Klooster",
-			"email": "info@marcovantklooster.nl",
-			"website": "http://www.marcovantklooster.nl"
-		}, {
-			"name": "Marco van den Hout",
-			"email": "marco@vandenhout.org",
-			"website": "http://www.marcovandenhout.nl"
-		}, {
-			"name": "Raymond Julin",
-			"email": "raymond.julin@gmail.com",
-			"website": "http://raymondjulin.com"
-		}],
-		"translators": [{
-			"name": "Marco van 't Klooster",
-			"email": "info@marcovantklooster.nl",
-			"website": "http://www.marcovantklooster.nl",
-			"languages": ["nl", "en"]
-		}, {
-			"name": "Marco van den Hout",
-			"email": "marco@vandenhout.org",
-			"website": "http://www.marcovandenhout.nl",
-			"languages": ["nl", "en"]
-		}]
-	},
-	"images": {
-		"large": "./assets/images/large.jpg",
-		"small": "./assets/images/small.jpg"
-	},
-	"category": "appliances",
-	"description": {
-		"en": "Pioneer VSX control app for Homey",
-		"nl": "Dit is een Pioneer VSX aansturing app voor Homey"
-	},
-	"dependencies": {
-		"net": "*"
-	},
-	"drivers": [{
-		"id": "amplifier",
-		"name": {
-			"en": "Pioneer VSX amplifier",
-			"nl": "Pioneer VSX versterker"
-		},
-		"images": {
-			"large": "drivers/amplifier/assets/images/large.jpg",
-			"small": "drivers/amplifier/assets/images/small.jpg"
-		},
-		"class": "other",
-		"capabilities": ["onoff"],
-		"mobile": {
-			"components": [{
-				"id": "icon",
-				"capabilities": ["onoff"]
-			}]
-		},
-		"pair": [{
-			"id": "start"
-		}, {
-			"id": "list_devices",
-			"template": "list_devices",
-			"navigation": {
-				"next": "add_amplifier"
+	"contributors":{
+		"developers":[
+			{
+				"name":"Marco van 't Klooster",
+				"email":"info@marcovantklooster.nl",
+				"website":"http://www.marcovantklooster.nl"
+			},
+			{
+				"name":"Marco van den Hout",
+				"email":"marco@vandenhout.org",
+				"website":"http://www.marcovandenhout.nl"
+			},
+			{
+				"name":"Raymond Julin",
+				"email":"raymond.julin@gmail.com",
+				"website":"http://raymondjulin.com"
 			}
-		}, {
-			"id": "add_amplifier",
-			"template": "add_devices"
-		}]
-	}],
-	"flow": {
-		"actions": [{
-			"id": "powerOn",
-			"title": {
-				"en": "Turn power on",
-				"nl": "Zet aan"
+		],
+		"translators":[
+			{
+				"name":"Marco van 't Klooster",
+				"email":"info@marcovantklooster.nl",
+				"website":"http://www.marcovantklooster.nl",
+				"languages":[
+					"nl",
+					"en"
+				]
 			},
-			"args": [{
-				"name": "device",
-				"type": "device",
-				"placeholder": {
-					"en": "Select amplifier",
-					"nl": "Selecteer versterker"
-				}
-			}]
-		}, {
-			"id": "powerOff",
-			"title": {
-				"en": "Power off/standby",
-				"nl": "Uitschakelen/standby"
+			{
+				"name":"Marco van den Hout",
+				"email":"marco@vandenhout.org",
+				"website":"http://www.marcovandenhout.nl",
+				"languages":[
+					"nl",
+					"en"
+				]
+			}
+		]
+	},
+	"images":{
+		"large":"./assets/images/large.jpg",
+		"small":"./assets/images/small.jpg"
+	},
+	"category":"appliances",
+	"description":{
+		"en":"Pioneer VSX control app for Homey",
+		"nl":"Dit is een Pioneer VSX aansturing app voor Homey"
+	},
+	"dependencies":{
+		"net":"*"
+	},
+	"drivers":[
+		{
+			"id":"amplifier",
+			"name":{
+				"en":"Pioneer VSX amplifier",
+				"nl":"Pioneer VSX versterker"
 			},
-			"args": [{
-				"name": "device",
-				"type": "device",
-				"placeholder": {
-					"en": "Select amplifier",
-					"nl": "Selecteer versterker"
-				}
-			}]
-		}, {
-			"id": "changeInput",
-			"title": {
-				"en": "Switch input",
-				"nl": "Schakel input"
+			"images":{
+				"large":"drivers/amplifier/assets/images/large.jpg",
+				"small":"drivers/amplifier/assets/images/small.jpg"
 			},
-			"args": [{
-				"name": "input",
-				"type": "autocomplete",
-				"placeholder": {
-					"en": "Input",
-					"nl": "Ingang"
-				}
-			}, {
-				"name": "device",
-				"type": "device",
-				"placeholder": {
-					"en": "Select amplifier",
-					"nl": "Selecteer versterker"
-				}
-			}]
-		}, {
-			"id": "volumeUp",
-			"title": {
-				"en": "Volume up",
-				"nl": "Volume omhoog"
+			"class":"other",
+			"capabilities":[
+				"onoff"
+			],
+			"mobile":{
+				"components":[
+					{
+						"id":"icon",
+						"options":{
+							"showTitle":true
+						},
+						"capabilities":[
+							"onoff"
+						]
+					},
+					{
+						"id":"toggle",
+						"capabilities":[
+							"onoff"
+						]
+					}
+				]
 			},
-			"args": [{
-				"name": "device",
-				"type": "device",
-				"placeholder": {
-					"en": "Select amplifier",
-					"nl": "Selecteer versterker"
+			"pair":[
+				{
+					"id":"start"
+				},
+				{
+					"id":"list_devices",
+					"template":"list_devices",
+					"navigation":{
+						"next":"add_amplifier"
+					}
+				},
+				{
+					"id":"add_amplifier",
+					"template":"add_devices"
 				}
-			}, {
-				"name": "volume",
-				"type": "number",
-				"min": 1,
-				"max": 73,
-				"placeholder": {
-					"en": "Steps volume up",
-					"nl": "Stappen volume omhoog"
-				}
-			}]
-		}, {
-			"id": "volumeDown",
-			"title": {
-				"en": "Volume down",
-				"nl": "Volume oplaag"
+			]
+		}
+	],
+	"flow":{
+		"actions":[
+			{
+				"id":"powerOn",
+				"title":{
+					"en":"Turn power on",
+					"nl":"Zet aan"
+				},
+				"args":[
+					{
+						"name":"device",
+						"type":"device",
+						"placeholder":{
+							"en":"Select amplifier",
+							"nl":"Selecteer versterker"
+						}
+					}
+				]
 			},
-			"args": [{
-				"name": "device",
-				"type": "device",
-				"placeholder": {
-					"en": "Select amplifier",
-					"nl": "Selecteer versterker"
+			{
+				"id":"powerOff",
+				"title":{
+					"en":"Power off/standby",
+					"nl":"Uitschakelen/standby"
+				},
+				"args":[
+					{
+						"name":"device",
+						"type":"device",
+						"placeholder":{
+							"en":"Select amplifier",
+							"nl":"Selecteer versterker"
+						}
+					}
+				]
+			},
+			{
+				"id":"changeInput",
+				"title":{
+					"en":"Switch input",
+					"nl":"Schakel input"
+				},
+				"args":[
+					{
+						"name":"input",
+						"type":"autocomplete",
+						"placeholder":{
+							"en":"Input",
+							"nl":"Ingang"
+						}
+					},
+					{
+						"name":"device",
+						"type":"device",
+						"placeholder":{
+							"en":"Select amplifier",
+							"nl":"Selecteer versterker"
+						}
+					}
+				]
+			},
+			{
+				"id":"volumeUp",
+				"title":{
+					"en":"Volume up",
+					"nl":"Volume omhoog"
+				},
+				"args":[
+					{
+						"name":"device",
+						"type":"device",
+						"placeholder":{
+							"en":"Select amplifier",
+							"nl":"Selecteer versterker"
+						}
+					},
+					{
+						"name":"volume",
+						"type":"number",
+						"min":1,
+						"max":73,
+						"placeholder":{
+							"en":"Steps volume up",
+							"nl":"Stappen volume omhoog"
+						}
+					}
+				]
+			},
+			{
+				"id":"volumeDown",
+				"title":{
+					"en":"Volume down",
+					"nl":"Volume oplaag"
+				},
+				"args":[
+					{
+						"name":"device",
+						"type":"device",
+						"placeholder":{
+							"en":"Select amplifier",
+							"nl":"Selecteer versterker"
+						}
+					},
+					{
+						"name":"volume",
+						"type":"number",
+						"min":1,
+						"max":73,
+						"placeholder":{
+							"en":"Steps volume down",
+							"nl":"Stappen volume oplaag"
+						}
+					}
+				]
+			}
+		],
+		"conditions":[
+			{
+				"id":"powerOnOff",
+				"title":{
+					"en":"Amplifier is !{{on|off}}",
+					"nl":"Versterker is !{{aan|uit}}"
 				}
-			}, {
-				"name": "volume",
-				"type": "number",
-				"min": 1,
-				"max": 73,
-				"placeholder": {
-					"en": "Steps volume down",
-					"nl": "Stappen volume oplaag"
-				}
-			}]
-		}]
+			}
+		]
 	}
 }

@@ -1,7 +1,8 @@
 "use strict";
 
-function init() {
-	Homey.log("Pioneer app - init start");
-	Homey.log("Pioneer app - init done");
+module.exports.init = function(){
+
+    // run your code here
+    Homey.log("Pioneer app - init start");
+
 }
-module.exports.init = init;
