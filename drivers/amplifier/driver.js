@@ -332,7 +332,6 @@ var sendCommand = function(hostIP, command, callbackCommand) {
 		// if we got a callback function, call it with the receivedData
 		if (callbackCommand && typeof(callbackCommand) === "function") {
 			callbackCommand(receivedData);
-			errorCallback(true);
 		}
 	}, 1000);
 };
