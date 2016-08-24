@@ -15,7 +15,7 @@ This app lets you control a Pioneer VSX amplifier from within flows on a Homey d
 ##Version 1.0.0
 
 * Added: Flow condition to check if your amplifier is on or off
-* Added: Switch to port 23 to support 
+* Added: Switch to port 23 to support other devices
 * Improved: Mobile card
 * Removed: Unnecessary files so the app take less space on your Homey
 
