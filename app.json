@@ -4,7 +4,7 @@
 		"en":"Pioneer",
 		"nl":"Pioneer"
 	},
-	"version":"1.0.1",
+	"version":"1.1.0",
 	"compatibility":"0.x || 1.x",
 	"author":{
 		"name":"Marco van 't Klooster",
@@ -111,7 +111,57 @@
 					"id":"add_amplifier",
 					"template":"add_devices"
 				}
-			]
+			],
+		"settings": [
+            {
+                "type": "group",
+                "label": {
+                    "en": "Amplifier settings",
+                    "nl": "Versterker instellingen"
+                },
+                "children": [
+                    {
+                        "id": "settingIPAddress",
+                        "type": "text",
+                        "label": {
+                            "en": "IP address of your Pioneer",
+							"nl": "IP adres van de Pioneer"
+                        },
+                        "value": ""
+                    },
+                    {
+                        "id": "telnetPort",
+                        "type": "number",
+                        "label": {
+                            "en": "Telnet port of your Pioneer",
+							"nl": "Telnet poort van de Pioneer"
+                        },
+                        "value": 8102,
+                        "attr": {
+                            "min": 1,
+                            "max": 65535
+                        }
+                    }
+                ]
+             }, {
+                "type": "group",
+                "label": {
+                    "en": "Calibrate maximum volume",
+                    "nl": "Kalibreer maximale volume"
+                },
+                "children": [
+                    {
+                        "id": "volumeMultiplier",
+                        "type": "text",
+                        "label": {
+                            "en": "WARNING! Turn OFF your music! When this field is empty your Homey will, on save, get the maximum volume of your Pioneer.",
+							"nl": "WAARSCHUWING! Zet de muziek UIT! Wanneer de gegevens hiernaast leeg zijn zal Homey, bij het opslaan, het maximale volume van uw Pioneer ophalen."
+						},
+                        "value": ""
+                    }
+                ]
+            }
+         ]
 		}
 	],
 	"flow":{
@@ -228,6 +278,33 @@
 						}
 					}
 				]
+			},
+			{
+				"id":"changeVolume",
+				"title":{
+					"en":"Set volume",
+					"nl":"Stel volume in"
+				},
+				"args":[
+					{
+						"name":"device",
+						"type":"device",
+						"placeholder":{
+							"en":"Select amplifier",
+							"nl":"Selecteer versterker"
+						}
+					},
+					{
+						"name":"volume",
+						"type":"number",
+						"min":1,
+						"max":73,
+						"placeholder":{
+							"en":"Volume level",
+							"nl":"Volume niveau"
+						}
+					}
+				]
 			}
 		],
 		"conditions":[
@@ -236,7 +313,17 @@
 				"title":{
 					"en":"Amplifier is !{{on|off}}",
 					"nl":"Versterker is !{{aan|uit}}"
-				}
+				},
+				"args":[
+					{
+						"name":"device",
+						"type":"device",
+						"placeholder":{
+							"en":"Select amplifier",
+							"nl":"Selecteer versterker"
+						}
+					}
+				]
 			}
 		]
 	}
