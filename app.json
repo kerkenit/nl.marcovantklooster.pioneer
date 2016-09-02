@@ -4,7 +4,7 @@
 		"en":"Pioneer",
 		"nl":"Pioneer"
 	},
-	"version":"1.1.0",
+	"version":"1.1.1",
 	"compatibility":"0.x || 1.x",
 	"author":{
 		"name":"Marco van 't Klooster",
@@ -297,7 +297,7 @@
 					{
 						"name":"volume",
 						"type":"number",
-						"min":1,
+						"min":0,
 						"max":73,
 						"placeholder":{
 							"en":"Volume level",
