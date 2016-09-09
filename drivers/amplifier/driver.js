@@ -240,6 +240,37 @@ Homey.manager('flow').on('action.changeVolume', function(callback, args) {
 	callback(null, true);
 });
 
+Homey.manager('flow').on('action.mute', function(callback, args) {
+	var command = '';
+	if(args.onoff === 'on') {
+		command = 'MO\r';
+	} else if(args.onoff === 'off') {
+		command = 'MF\r';
+	}
+	if(command !== '') {
+		sendCommandToDevice(args.device.ipaddress, command);
+	}
+	callback(null, true);
+});
+Homey.manager('flow').on('condition.muteOnOff', function(callback, args) {
+	var tempIP = args.device;
+	muteOnOff(tempIP, function(onoff) {
+		callback(null, onoff);
+	});
+});
+
+
+var muteOnOff = function(hostIP, callback) {
+	sendCommandToDevice(hostIP, '?M\r', function(receivedData) {
+		// if the response contained "MUT1", the AVR was muted. Else it was unmuted.
+		if (receivedData.indexOf("MUT0") > -1) {
+			callback(true);
+		} else if (receivedData.indexOf("MUT1") > -1) {
+			callback(false);
+		}
+	});
+};
+
 var powerOn = function(hostIP) {
 	var command = 'PO\r';
 	sendCommandToDevice(hostIP, command);

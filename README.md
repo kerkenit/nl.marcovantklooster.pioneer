@@ -27,6 +27,11 @@ This app lets you control a Pioneer VSX amplifier from within flows on a Homey d
 * Added: Settings to change the IP of the Pioneer and add option to add port nummer if the port number is different than the default 8102 or 23
 * Improved: Adding of devices
 
+##Version 1.2.0
+
+* Added: Flow action to mute and unmute your amplifier
+* Added: Flow condition to check if your amplifier is muted or unmuted
+
 ##Supported devices
 
 ###Confirmed

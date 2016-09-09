@@ -1,330 +1,313 @@
 {
-	"id":"nl.marcovantklooster.pioneer",
-	"name":{
-		"en":"Pioneer",
-		"nl":"Pioneer"
+	"id": "nl.marcovantklooster.pioneer",
+	"name": {
+		"en": "Pioneer",
+		"nl": "Pioneer"
 	},
-	"version":"1.1.1",
-	"compatibility":"0.x || 1.x",
-	"author":{
-		"name":"Marco van 't Klooster",
-		"email":"info@marcovantklooster.nl",
-		"website":"http://www.marcovantklooster.nl"
+	"version": "1.2.0",
+	"compatibility": "0.x || 1.x",
+	"author": {
+		"name": "Marco van 't Klooster",
+		"email": "info@marcovantklooster.nl",
+		"website": "http://www.marcovantklooster.nl"
 	},
-	"contributors":{
-		"developers":[
-			{
-				"name":"Marco van 't Klooster",
-				"email":"info@marcovantklooster.nl",
-				"website":"http://www.marcovantklooster.nl"
-			},
-			{
-				"name":"Marco van den Hout",
-				"email":"marco@vandenhout.org",
-				"website":"http://www.marcovandenhout.nl"
-			},
-			{
-				"name":"Raymond Julin",
-				"email":"raymond.julin@gmail.com",
-				"website":"http://raymondjulin.com"
-			}
-		],
-		"translators":[
-			{
-				"name":"Marco van 't Klooster",
-				"email":"info@marcovantklooster.nl",
-				"website":"http://www.marcovantklooster.nl",
-				"languages":[
-					"nl",
-					"en"
-				]
-			},
-			{
-				"name":"Marco van den Hout",
-				"email":"marco@vandenhout.org",
-				"website":"http://www.marcovandenhout.nl",
-				"languages":[
-					"nl",
-					"en"
-				]
-			}
-		]
+	"contributors": {
+		"developers": [{
+			"name": "Marco van 't Klooster",
+			"email": "info@marcovantklooster.nl",
+			"website": "http://www.marcovantklooster.nl"
+		}, {
+			"name": "Marco van den Hout",
+			"email": "marco@vandenhout.org",
+			"website": "http://www.marcovandenhout.nl"
+		}, {
+			"name": "Raymond Julin",
+			"email": "raymond.julin@gmail.com",
+			"website": "http://raymondjulin.com"
+		}],
+		"translators": [{
+			"name": "Marco van 't Klooster",
+			"email": "info@marcovantklooster.nl",
+			"website": "http://www.marcovantklooster.nl",
+			"languages": ["nl", "en"]
+		}, {
+			"name": "Marco van den Hout",
+			"email": "marco@vandenhout.org",
+			"website": "http://www.marcovandenhout.nl",
+			"languages": ["nl", "en"]
+		}]
 	},
-	"images":{
-		"large":"./assets/images/large.jpg",
-		"small":"./assets/images/small.jpg"
+	"images": {
+		"large": "./assets/images/large.jpg",
+		"small": "./assets/images/small.jpg"
 	},
-	"category":"appliances",
-	"description":{
-		"en":"Pioneer VSX control app for Homey",
-		"nl":"Dit is een Pioneer VSX aansturing app voor Homey"
+	"category": "appliances",
+	"description": {
+		"en": "Pioneer VSX control app for Homey",
+		"nl": "Dit is een Pioneer VSX aansturing app voor Homey"
 	},
-	"dependencies":{
-		"net":"*"
+	"dependencies": {
+		"net": "*"
 	},
-	"drivers":[
-		{
-			"id":"amplifier",
-			"name":{
-				"en":"Pioneer VSX amplifier",
-				"nl":"Pioneer VSX versterker"
-			},
-			"images":{
-				"large":"drivers/amplifier/assets/images/large.jpg",
-				"small":"drivers/amplifier/assets/images/small.jpg"
-			},
-			"class":"other",
-			"capabilities":[
-				"onoff"
-			],
-			"mobile":{
-				"components":[
-					{
-						"id":"icon",
-						"options":{
-							"showTitle":true
-						},
-						"capabilities":[
-							"onoff"
-						]
-					},
-					{
-						"id":"toggle",
-						"capabilities":[
-							"onoff"
-						]
-					}
-				]
-			},
-			"pair":[
-				{
-					"id":"start"
+	"drivers": [{
+		"id": "amplifier",
+		"name": {
+			"en": "Pioneer VSX amplifier",
+			"nl": "Pioneer VSX versterker"
+		},
+		"images": {
+			"large": "drivers/amplifier/assets/images/large.jpg",
+			"small": "drivers/amplifier/assets/images/small.jpg"
+		},
+		"class": "other",
+		"capabilities": ["onoff"],
+		"mobile": {
+			"components": [{
+				"id": "icon",
+				"options": {
+					"showTitle": true
 				},
-				{
-					"id":"list_devices",
-					"template":"list_devices",
-					"navigation":{
-						"next":"add_amplifier"
-					}
+				"capabilities": ["onoff"]
+			}, {
+				"id": "toggle",
+				"capabilities": ["onoff"]
+			}]
+		},
+		"pair": [{
+			"id": "start"
+		}, {
+			"id": "list_devices",
+			"template": "list_devices",
+			"navigation": {
+				"next": "add_amplifier"
+			}
+		}, {
+			"id": "add_amplifier",
+			"template": "add_devices"
+		}],
+		"settings": [{
+			"type": "group",
+			"label": {
+				"en": "Amplifier settings",
+				"nl": "Versterker instellingen"
+			},
+			"children": [{
+				"id": "settingIPAddress",
+				"type": "text",
+				"label": {
+					"en": "IP address of your Pioneer",
+					"nl": "IP adres van de Pioneer"
 				},
-				{
-					"id":"add_amplifier",
-					"template":"add_devices"
+				"value": ""
+			}, {
+				"id": "telnetPort",
+				"type": "number",
+				"label": {
+					"en": "Telnet port of your Pioneer",
+					"nl": "Telnet poort van de Pioneer"
+				},
+				"value": 8102,
+				"attr": {
+					"min": 1,
+					"max": 65535
 				}
-			],
-		"settings": [
-            {
-                "type": "group",
-                "label": {
-                    "en": "Amplifier settings",
-                    "nl": "Versterker instellingen"
-                },
-                "children": [
-                    {
-                        "id": "settingIPAddress",
-                        "type": "text",
-                        "label": {
-                            "en": "IP address of your Pioneer",
-							"nl": "IP adres van de Pioneer"
-                        },
-                        "value": ""
-                    },
-                    {
-                        "id": "telnetPort",
-                        "type": "number",
-                        "label": {
-                            "en": "Telnet port of your Pioneer",
-							"nl": "Telnet poort van de Pioneer"
-                        },
-                        "value": 8102,
-                        "attr": {
-                            "min": 1,
-                            "max": 65535
-                        }
-                    }
-                ]
-             }, {
-                "type": "group",
-                "label": {
-                    "en": "Calibrate maximum volume",
-                    "nl": "Kalibreer maximale volume"
-                },
-                "children": [
-                    {
-                        "id": "volumeMultiplier",
-                        "type": "text",
-                        "label": {
-                            "en": "WARNING! Turn OFF your music! When this field is empty your Homey will, on save, get the maximum volume of your Pioneer.",
-							"nl": "WAARSCHUWING! Zet de muziek UIT! Wanneer de gegevens hiernaast leeg zijn zal Homey, bij het opslaan, het maximale volume van uw Pioneer ophalen."
-						},
-                        "value": ""
-                    }
-                ]
-            }
-         ]
-		}
-	],
-	"flow":{
-		"actions":[
-			{
-				"id":"powerOn",
-				"title":{
-					"en":"Turn power on",
-					"nl":"Zet aan"
-				},
-				"args":[
-					{
-						"name":"device",
-						"type":"device",
-						"placeholder":{
-							"en":"Select amplifier",
-							"nl":"Selecteer versterker"
-						}
-					}
-				]
+			}]
+		}, {
+			"type": "group",
+			"label": {
+				"en": "Calibrate maximum volume",
+				"nl": "Kalibreer maximale volume"
 			},
-			{
-				"id":"powerOff",
-				"title":{
-					"en":"Power off/standby",
-					"nl":"Uitschakelen/standby"
+			"children": [{
+				"id": "volumeMultiplier",
+				"type": "text",
+				"label": {
+					"en": "WARNING! Turn OFF your music! When this field is empty your Homey will, on save, get the maximum volume of your Pioneer.",
+					"nl": "WAARSCHUWING! Zet de muziek UIT! Wanneer de gegevens hiernaast leeg zijn zal Homey, bij het opslaan, het maximale volume van uw Pioneer ophalen."
 				},
-				"args":[
-					{
-						"name":"device",
-						"type":"device",
-						"placeholder":{
-							"en":"Select amplifier",
-							"nl":"Selecteer versterker"
-						}
-					}
-				]
+				"value": ""
+			}]
+		}]
+	}],
+	"flow": {
+		"actions": [{
+			"id": "powerOn",
+			"title": {
+				"en": "Turn power on",
+				"nl": "Zet aan"
 			},
-			{
-				"id":"changeInput",
-				"title":{
-					"en":"Switch input",
-					"nl":"Schakel input"
-				},
-				"args":[
-					{
-						"name":"input",
-						"type":"autocomplete",
-						"placeholder":{
-							"en":"Input",
-							"nl":"Ingang"
-						}
-					},
-					{
-						"name":"device",
-						"type":"device",
-						"placeholder":{
-							"en":"Select amplifier",
-							"nl":"Selecteer versterker"
-						}
-					}
-				]
+			"args": [{
+				"name": "device",
+				"type": "device",
+				"placeholder": {
+					"en": "Select amplifier",
+					"nl": "Selecteer versterker"
+				}
+			}]
+		}, {
+			"id": "powerOff",
+			"title": {
+				"en": "Power off/standby",
+				"nl": "Uitschakelen/standby"
 			},
-			{
-				"id":"volumeUp",
-				"title":{
-					"en":"Volume up",
-					"nl":"Volume omhoog"
-				},
-				"args":[
-					{
-						"name":"device",
-						"type":"device",
-						"placeholder":{
-							"en":"Select amplifier",
-							"nl":"Selecteer versterker"
-						}
-					},
-					{
-						"name":"volume",
-						"type":"number",
-						"min":1,
-						"max":73,
-						"placeholder":{
-							"en":"Steps volume up",
-							"nl":"Stappen volume omhoog"
-						}
-					}
-				]
+			"args": [{
+				"name": "device",
+				"type": "device",
+				"placeholder": {
+					"en": "Select amplifier",
+					"nl": "Selecteer versterker"
+				}
+			}]
+		}, {
+			"id": "changeInput",
+			"title": {
+				"en": "Switch input",
+				"nl": "Schakel input"
 			},
-			{
-				"id":"volumeDown",
-				"title":{
-					"en":"Volume down",
-					"nl":"Volume oplaag"
-				},
-				"args":[
-					{
-						"name":"device",
-						"type":"device",
-						"placeholder":{
-							"en":"Select amplifier",
-							"nl":"Selecteer versterker"
-						}
-					},
-					{
-						"name":"volume",
-						"type":"number",
-						"min":1,
-						"max":73,
-						"placeholder":{
-							"en":"Steps volume down",
-							"nl":"Stappen volume oplaag"
-						}
-					}
-				]
+			"args": [{
+				"name": "input",
+				"type": "autocomplete",
+				"placeholder": {
+					"en": "Input",
+					"nl": "Ingang"
+				}
+			}, {
+				"name": "device",
+				"type": "device",
+				"placeholder": {
+					"en": "Select amplifier",
+					"nl": "Selecteer versterker"
+				}
+			}]
+		}, {
+			"id": "volumeUp",
+			"title": {
+				"en": "Volume up",
+				"nl": "Volume omhoog"
 			},
-			{
-				"id":"changeVolume",
-				"title":{
-					"en":"Set volume",
-					"nl":"Stel volume in"
-				},
-				"args":[
-					{
-						"name":"device",
-						"type":"device",
-						"placeholder":{
-							"en":"Select amplifier",
-							"nl":"Selecteer versterker"
-						}
-					},
-					{
-						"name":"volume",
-						"type":"number",
-						"min":0,
-						"max":73,
-						"placeholder":{
-							"en":"Volume level",
-							"nl":"Volume niveau"
-						}
+			"args": [{
+				"name": "device",
+				"type": "device",
+				"placeholder": {
+					"en": "Select amplifier",
+					"nl": "Selecteer versterker"
+				}
+			}, {
+				"name": "volume",
+				"type": "number",
+				"min": 1,
+				"max": 73,
+				"placeholder": {
+					"en": "Steps volume up",
+					"nl": "Stappen volume omhoog"
+				}
+			}]
+		}, {
+			"id": "volumeDown",
+			"title": {
+				"en": "Volume down",
+				"nl": "Volume oplaag"
+			},
+			"args": [{
+				"name": "device",
+				"type": "device",
+				"placeholder": {
+					"en": "Select amplifier",
+					"nl": "Selecteer versterker"
+				}
+			}, {
+				"name": "volume",
+				"type": "number",
+				"min": 1,
+				"max": 73,
+				"placeholder": {
+					"en": "Steps volume down",
+					"nl": "Stappen volume oplaag"
+				}
+			}]
+		}, {
+			"id": "changeVolume",
+			"title": {
+				"en": "Set volume",
+				"nl": "Stel volume in"
+			},
+			"args": [{
+				"name": "device",
+				"type": "device",
+				"placeholder": {
+					"en": "Select amplifier",
+					"nl": "Selecteer versterker"
+				}
+			}, {
+				"name": "volume",
+				"type": "number",
+				"min": 0,
+				"max": 73,
+				"placeholder": {
+					"en": "Volume level",
+					"nl": "Volume niveau"
+				}
+			}]
+		}, {
+			"id": "mute",
+			"title": {
+				"en": "Set mute",
+				"nl": "Scahekel dempen aan of uit"
+			},
+			"args": [{
+				"name": "device",
+				"type": "device",
+				"placeholder": {
+					"en": "Select amplifier",
+					"nl": "Selecteer versterker"
+				}
+			}, {
+				"name": "onoff",
+				"type": "dropdown",
+				"values": [{
+					"id": "on",
+					"label": {
+						"en": "Mute",
+						"nl": "Dempen aan"
 					}
-				]
-			}
-		],
-		"conditions":[
-			{
-				"id":"powerOnOff",
-				"title":{
-					"en":"Amplifier is !{{on|off}}",
-					"nl":"Versterker is !{{aan|uit}}"
-				},
-				"args":[
-					{
-						"name":"device",
-						"type":"device",
-						"placeholder":{
-							"en":"Select amplifier",
-							"nl":"Selecteer versterker"
-						}
+				}, {
+					"id": "off",
+					"label": {
+						"en": "Unmute",
+						"nl": "Dempen uit"
 					}
-				]
-			}
-		]
+				}]
+			}]
+		}],
+		"conditions": [{
+			"id": "powerOnOff",
+			"title": {
+				"en": "Amplifier is !{{on|off}}",
+				"nl": "Versterker is !{{aan|uit}}"
+			},
+			"args": [{
+				"name": "device",
+				"type": "device",
+				"placeholder": {
+					"en": "Select amplifier",
+					"nl": "Selecteer versterker"
+				}
+			}]
+		},
+		{
+			"id": "muteOnOff",
+			"title": {
+				"en": "Amplifier is !{{muted|not muted}}",
+				"nl": "Versterker is !{{gedempt|niet gedempt}}"
+			},
+			"args": [{
+				"name": "device",
+				"type": "device",
+				"placeholder": {
+					"en": "Select amplifier",
+					"nl": "Selecteer versterker"
+				}
+			}]
+		}]
 	}
 }
