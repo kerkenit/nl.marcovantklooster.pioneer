@@ -4,7 +4,7 @@
 		"en": "Pioneer",
 		"nl": "Pioneer"
 	},
-	"version": "1.2.0",
+	"version": "1.3.0",
 	"compatibility": "0.x || 1.x",
 	"author": {
 		"name": "Marco van 't Klooster",
@@ -165,18 +165,18 @@
 				"nl": "Schakel input"
 			},
 			"args": [{
-				"name": "input",
-				"type": "autocomplete",
-				"placeholder": {
-					"en": "Input",
-					"nl": "Ingang"
-				}
-			}, {
 				"name": "device",
 				"type": "device",
 				"placeholder": {
 					"en": "Select amplifier",
 					"nl": "Selecteer versterker"
+				}
+			}, {
+				"name": "input",
+				"type": "autocomplete",
+				"placeholder": {
+					"en": "Input",
+					"nl": "Ingang"
 				}
 			}]
 		}, {
@@ -293,12 +293,11 @@
 					"nl": "Selecteer versterker"
 				}
 			}]
-		},
-		{
+		}, {
 			"id": "muteOnOff",
 			"title": {
-				"en": "Amplifier is !{{muted|not muted}}",
-				"nl": "Versterker is !{{gedempt|niet gedempt}}"
+				"en": "Amplifier is !{{|not }}muted",
+				"nl": "Versterker is !{{|niet }}gedempt"
 			},
 			"args": [{
 				"name": "device",
