@@ -79,13 +79,12 @@ var allPossibleInputs = [{
 	inputName: "00FN\r",
 	friendlyName: "PHONO"
 }];
-
 // the `init` method is called when your driver is loaded for the first time
-module.exports.init = function( devices_data, callback ) {
-    devices_data.forEach(function(device_data){
-        initDevice( device_data );
-    });
-    callback();
+module.exports.init = function(devices_data, callback) {
+	devices_data.forEach(function(device_data) {
+		initDevice(device_data);
+	});
+	callback();
 };
 // start of pairing functions
 module.exports.pair = function(socket) {
@@ -110,11 +109,10 @@ module.exports.renamed = function(device_data, new_name) {
 	// update the devices array we keep
 	devices[device_data.id].data.name = new_name;
 };
-module.exports.deleted = function( device_data, callback ) {
-    delete devices[ device_data.id ];
-    callback( null, true );
+module.exports.deleted = function(device_data, callback) {
+	delete devices[device_data.id];
+	callback(null, true);
 };
-
 // handling settings (wrench icon in devices)
 module.exports.settings = function(device_data, newSettingsObj, oldSettingsObj, changedKeysArr, callback) {
 	// run when the user has changed the device's settings in Homey.
@@ -127,12 +125,12 @@ module.exports.settings = function(device_data, newSettingsObj, oldSettingsObj, 
 	try {
 		changedKeysArr.forEach(function(key) {
 			switch (key) {
-				case 'settingIPAddress':
-					Homey.log('Pioneer app - IP address changed to ' + newSettingsObj.settingIPAddress);
-					// FIXME: check if IP is valid, otherwise return callback with an error
+			case 'settingIPAddress':
+				Homey.log('Pioneer app - IP address changed to ' + newSettingsObj.settingIPAddress);
+				// FIXME: check if IP is valid, otherwise return callback with an error
 				break;
-				case 'telnetPort':
-					telnetPort.push(newSettingsObj.telnetPort);
+			case 'telnetPort':
+				telnetPort.push(newSettingsObj.telnetPort);
 				break;
 			}
 		});
@@ -140,11 +138,11 @@ module.exports.settings = function(device_data, newSettingsObj, oldSettingsObj, 
 		callback(error, null);
 	}
 	try {
-		if(newSettingsObj.volumeMultiplier === undefined || newSettingsObj.volumeMultiplier === null || newSettingsObj.volumeMultiplier.length === 0) {
+		if (newSettingsObj.volumeMultiplier === undefined || newSettingsObj.volumeMultiplier === null || newSettingsObj.volumeMultiplier.length === 0) {
 			Homey.log('Pioneer app - Get maximum volume of ' + newSettingsObj.settingIPAddress);
 			detectVolumeMultiplier(newSettingsObj.settingIPAddress, device_data, function(message, status) {
-				if(status) {
-					if(message !== null) {
+				if (status) {
+					if (message !== null) {
 						newSettingsObj.volumeMultiplier = message;
 						callback(null, true);
 					} else {
@@ -158,17 +156,14 @@ module.exports.settings = function(device_data, newSettingsObj, oldSettingsObj, 
 	} catch (error) {
 		callback(error, null);
 	}
-
 };
 // capabilities
 module.exports.capabilities = {
 	onoff: {
 		get: function(device_data, callbackCapability) {
-			var device = getDeviceByData( device_data );
-			if( device instanceof Error ) return callback( device );
-
-			var deviceIP = device.id;
-
+			var device = getDeviceByData(device_data);
+			if (device instanceof Error) return callback(device);
+			var deviceIP = device.settings.settingIPAddress;
 			device.state.onoff = powerOnOff(deviceIP, function(onoff) {
 				device.state.onoff = onoff;
 				Homey.log('Pioneer app - telling capability power of ' + deviceIP + ' is ' + (device.state.onoff ? 'on' : 'off'));
@@ -176,20 +171,16 @@ module.exports.capabilities = {
 			});
 		},
 		set: function(device_data, onoff, callbackCapability) {
-
-			var device = getDeviceByData( device_data );
-			if( device instanceof Error ) return callback( device );
-
-			var deviceIP = device.id;
+			var device = getDeviceByData(device_data);
+			if (device instanceof Error) return callback(device);
+			var deviceIP = device.settings.settingIPAddress;
 			device.state.onoff = onoff;
-
 			Homey.log('Pioneer app - Setting device_status of ' + deviceIP + ' to ' + (device.state.onoff ? 'power on' : 'power off'));
 			if (device.state.onoff) {
 				powerOn(deviceIP);
 			} else {
 				powerOff(deviceIP);
 			}
-
 			callbackCapability(null, device.state.onoff);
 		}
 	}
@@ -197,25 +188,21 @@ module.exports.capabilities = {
 // end capabilities
 // start flow action handlers
 Homey.manager('flow').on('action.powerOn', function(callback, args) {
-	var tempIP = args.device.ipaddress;
-	powerOn(tempIP);
+	powerOn(args.device);
 	callback(null, true);
 });
 Homey.manager('flow').on('action.powerOff', function(callback, args) {
-	var tempIP = args.device.ipaddress;
-	powerOff(tempIP);
+	powerOff(args.device);
 	callback(null, true);
 });
 Homey.manager('flow').on('condition.powerOnOff', function(callback, args) {
-	var tempIP = args.device;
-	powerOnOff(tempIP, function(onoff) {
+	powerOnOff(args.device, function(onoff) {
 		callback(null, onoff);
 	});
 });
 Homey.manager('flow').on('action.changeInput', function(callback, args) {
 	var input = args.input.inputName;
-	var tempIP = args.device.ipaddress;
-	changeInputSource(tempIP, input);
+	changeInputSource(args.device, input);
 	callback(null, true);
 });
 Homey.manager('flow').on('action.changeInput.input.autocomplete', function(callback, value) {
@@ -224,242 +211,250 @@ Homey.manager('flow').on('action.changeInput.input.autocomplete', function(callb
 	callback(null, items);
 });
 Homey.manager('flow').on('action.volumeUp', function(callback, args) {
-	var tempIP = args.device.ipaddress;
 	var targetVolume = args.volume;
-	volumeUp(tempIP, targetVolume);
+	volumeUp(args.device, targetVolume);
 	callback(null, true);
 });
 Homey.manager('flow').on('action.volumeDown', function(callback, args) {
-	var tempIP = args.device.ipaddress;
 	var targetVolume = args.volume;
-	volumeDown(tempIP, targetVolume);
+	volumeDown(args.device, targetVolume);
 	callback(null, true);
 });
 Homey.manager('flow').on('action.changeVolume', function(callback, args) {
 	changeVolume(args.device, args.volume);
 	callback(null, true);
 });
-
 Homey.manager('flow').on('action.mute', function(callback, args) {
 	var command = '';
-	if(args.onoff === 'on') {
+	if (args.onoff === 'on') {
 		command = 'MO\r';
-	} else if(args.onoff === 'off') {
+	} else if (args.onoff === 'off') {
 		command = 'MF\r';
 	}
-	if(command !== '') {
-		sendCommandToDevice(args.device.ipaddress, command);
+	if (command !== '') {
+		sendCommandToDevice(args.device, command);
 	}
 	callback(null, true);
 });
 Homey.manager('flow').on('condition.muteOnOff', function(callback, args) {
-	var tempIP = args.device;
-	muteOnOff(tempIP, function(onoff) {
+	muteOnOff(args.device, function(onoff) {
 		callback(null, onoff);
 	});
 });
-
-
 var muteOnOff = function(hostIP, callback) {
-	sendCommandToDevice(hostIP, '?M\r', function(receivedData) {
-		// if the response contained "MUT1", the AVR was muted. Else it was unmuted.
-		if (receivedData.indexOf("MUT0") > -1) {
-			callback(true);
-		} else if (receivedData.indexOf("MUT1") > -1) {
-			callback(false);
-		}
-	});
-};
-
+		sendCommandToDevice(hostIP, '?M\r', function(receivedData) {
+			// if the response contained "MUT1", the AVR was muted. Else it was unmuted.
+			if (receivedData.indexOf("MUT0") > -1) {
+				callback(true);
+			} else if (receivedData.indexOf("MUT1") > -1) {
+				callback(false);
+			}
+		});
+	};
 var powerOn = function(hostIP) {
-	var command = 'PO\r';
-	sendCommandToDevice(hostIP, command);
-};
-
+		var command = 'PO\r';
+		sendCommandToDevice(hostIP, command);
+	};
 var powerOff = function(hostIP) {
-	var command = 'PF\r';
-	sendCommandToDevice(hostIP, command);
-};
-
+		var command = 'PF\r';
+		sendCommandToDevice(hostIP, command);
+	};
 var powerOnOff = function(hostIP, callback) {
-	sendCommandToDevice(hostIP, '?P\r', function(receivedData) {
-		// if the response contained "PWR0", the AVR was on. Else it was probably in standby.
-		if (receivedData.indexOf("PWR0") >= 0) {
-			callback(true);
-		} else {
-			callback(false);
-		}
-	});
-};
-
+		sendCommandToDevice(hostIP, '?P\r', function(receivedData) {
+			// if the response contained "PWR0", the AVR was on. Else it was probably in standby.
+			if (receivedData.indexOf("PWR0") >= 0) {
+				callback(true);
+			} else {
+				callback(false);
+			}
+		});
+	};
 var changeInputSource = function(hostIP, input) {
-	var command = input;
-	sendCommandToDevice(hostIP, command);
-};
-
+		var command = input;
+		sendCommandToDevice(hostIP, command);
+	};
 var volumeUp = function(hostIP, targetVolume) {
-	var command = 'VU\r';
-	for(var i = 0; i < parseInt(targetVolume); i++) {
-		setTimeout(function() {
-			sendCommandToDevice(hostIP, command);
-		}, i * 500);
-	}
-};
-
+		var command = 'VU\r';
+		for (var i = 0; i < parseInt(targetVolume); i++) {
+			setTimeout(function() {
+				sendCommandToDevice(hostIP, command);
+			}, i * 500);
+		}
+	};
 var volumeDown = function(hostIP, targetVolume) {
-	var command = 'VD\r';
-	for(var i = 0; i < parseInt(targetVolume); i++) {
-		setTimeout(function() {
-			sendCommandToDevice(hostIP, command);
-		}, i * 500);
-	}
-};
-
+		var command = 'VD\r';
+		for (var i = 0; i < parseInt(targetVolume); i++) {
+			setTimeout(function() {
+				sendCommandToDevice(hostIP, command);
+			}, i * 500);
+		}
+	};
 var changeVolume = function(device_data, targetVolume) {
-	module.exports.getSettings(device_data, function(err, settings) {
-		if(settings !== undefined) {
+		var device = getDeviceByData(device_data);
+		if (device.settings !== undefined) {
+
 			var volumeMultiplier = "0.4897959183673469";
-			if(settings.volumeMultiplier !== undefined && settings.volumeMultiplier !== null && settings.volumeMultiplier.length > 0) {
-				volumeMultiplier = Number(settings.volumeMultiplier);
+			if (device.settings.volumeMultiplier !== undefined && device.settings.volumeMultiplier !== null && device.settings.volumeMultiplier.length > 0) {
+				volumeMultiplier = Number(device.settings.volumeMultiplier);
 			}
 			sendCommandToDevice(device_data, '?V\r', function(response) {
 				var currentLevel = Number(response.replace(/^\D+/g, ''));
 				var d3 = currentLevel * volumeMultiplier;
 				var d4 = targetVolume - d3;
-				if(d4 > 0.00) {
+
+				if (d4 > 0.00) {
 					volumeUp(device_data, Math.round(d4));
-				} else if(d4 < 0.00) {
+				} else if (d4 < 0.00) {
 					volumeDown(device_data, Math.abs(Math.round(d4)));
 				}
 			});
 		}
-	});
-};
-
+	};
 var detectVolumeMultiplier = function(hostIP, device_data, callback) {
-	var commands = [];
-
-	for(var i = 0; i < 100; i++) {
-		commands.push({command: 'VU\r', time: i * 333});
-	}
-	commands.push({command: '?V\r', time: (110 * 333)});
-	for(var j = 0; j < 100; j++) {
-		commands.push({command: 'VD\r', time: (j + 120) * 333});
-	}
-	for(var k = 0; k < 10; k++) {
-		commands.push({command: 'VU\r', time: (k + 230) * 333});
-	}
-
-
-	for(var l = 0; l < commands.length; l++) {
-		var command = commands[l];
-		setTimeout(function(hostIP, device_data, command, callback) {
-
-			if(command.command === 'VU\r' || command.command === 'VD\r') {
-				sendCommand(hostIP, command.command);
-			} else {
-				sendCommand(hostIP, '?V\r', function(response) {
-					var maxLevel = Number(response.replace(/^\D+/g, ''));
-					Homey.log(JSON.stringify({'maxLevel': maxLevel}));
-					var maxVolume = Math.floor((maxLevel / 2) -1);
-					Homey.log(JSON.stringify({'maxVolume': maxVolume}));
-					var volumeMultiplier = maxVolume / maxLevel;
-					Homey.log(JSON.stringify({'volumeMultiplier': volumeMultiplier }));
-
-					module.exports.setSettings(device_data, {
-						volumeMultiplier: volumeMultiplier.toString()
-					}, function( err, settings ){
-						if(err === null) {
-							callback(settings.volumeMultiplier, true);
-						} else {
-							callback(err, false);
-						}
-					});
-				});
-			}
-		}, command.time, hostIP, device_data, command, callback);
-	}
-};
-
-
-var sendCommandToDevice = function(device, command, callbackCommand) {
-	module.exports.getSettings(device, function(err, settings) {
-		if(settings !== undefined) {
-			sendCommand(settings.settingIPAddress, command, callbackCommand);
-		}
-	});
-};
-
-var sendCommand = function(hostIP, command, callbackCommand) {
-	// clear variable that holds data received from the AVR
-	receivedData = "";
-	// for logging strip last char which will be the newline \n char
-	var displayCommand = command.substring(0, command.length - 1);
-	//Homey.log("Pioneer app - sending " + displayCommand + " to " + hostIP);
-	var client = new net.Socket();
-	client.on('error', function(err) {
-		Homey.log("Pioneer app - IP socket error: " + err.message);
-		if(err.message.indexOf("ECONNREFUSED") >= 0) {
-			telnetIndex++;
-			if(telnetPort[telnetIndex] === undefined) {
-				telnetIndex = 0;
-			}
-		}
-	});
-	client.connect(telnetPort[telnetIndex], hostIP);
-	client.write(command);
-	// get a response
-	client.on('data', function(data) {
-		var tempData = data.toString().replace("\r", "");
-		//Homey.log("Pioneer app - got: " + tempData);
-		receivedData += tempData;
-	});
-	// after a delay, close connection
-	setTimeout(function() {
-		receivedData = receivedData.replace("\r", "");
-		//Homey.log("Pioneer app - closing connection, receivedData: " + receivedData);
-		client.end();
-		// if we got a callback function, call it with the receivedData
-		if (callbackCommand && typeof(callbackCommand) === "function") {
-			callbackCommand(receivedData);
-		}
-	}, 1000);
-};
-
-var searchForInputsByValue = function(value) {
-	// for now, consider all known Pioneer inputs
-	var possibleInputs = allPossibleInputs;
-	var tempItems = [];
-	for (var i = 0; i < possibleInputs.length; i++) {
-		var tempInput = possibleInputs[i];
-		if (tempInput.friendlyName.toLowerCase().indexOf(value.toLowerCase()) >= 0) {
-			tempItems.push({
-				icon: "",
-				name: tempInput.friendlyName,
-				inputName: tempInput.inputName
+		var commands = [];
+		for (var i = 0; i < 100; i++) {
+			commands.push({
+				command: 'VU\r',
+				time: i * 333
 			});
 		}
-	}
-	return tempItems;
-};
-// a helper method to get a device from the devices list by it's device_data object
-var getDeviceByData = function( device_data ) {
-    var device = devices[ device_data.id ];
-    if( typeof device === 'undefined' ) {
-        return new Error("invalid_device");
-    } else {
-        return device;
-    }
-};
-// a helper method to add a device to the devices list
-var initDevice = function( device_data ) {
-    devices[ device_data.id ] = {};
-    devices[ device_data.id ].state = { onoff: true };
-    devices[ device_data.id ].data = device_data;
-    module.exports.getSettings(device_data, function(err, settings) {
-		devices[device_data.id].settings = settings;
-		if(settings.telnetPort !== undefined && settings.telnetPort !== null && settings.telnetPort > 0) {
-			telnetPort.push(settings.telnetPort);
+		commands.push({
+			command: '?V\r',
+			time: (110 * 333)
+		});
+		for (var j = 0; j < 100; j++) {
+			commands.push({
+				command: 'VD\r',
+				time: (j + 120) * 333
+			});
 		}
-	});
-};
+		for (var k = 0; k < 10; k++) {
+			commands.push({
+				command: 'VU\r',
+				time: (k + 230) * 333
+			});
+		}
+		for (var l = 0; l < commands.length; l++) {
+			var command = commands[l];
+			setTimeout(function(hostIP, device_data, command, callback) {
+				if (command.command === 'VU\r' || command.command === 'VD\r') {
+					sendCommand(hostIP, command.command);
+				} else {
+					sendCommand(hostIP, '?V\r', function(response) {
+						var maxLevel = Number(response.replace(/^\D+/g, ''));
+						Homey.log(JSON.stringify({
+							'maxLevel': maxLevel
+						}));
+						var maxVolume = Math.floor((maxLevel / 2) - 1);
+						Homey.log(JSON.stringify({
+							'maxVolume': maxVolume
+						}));
+						var volumeMultiplier = maxVolume / maxLevel;
+						Homey.log(JSON.stringify({
+							'volumeMultiplier': volumeMultiplier
+						}));
+						module.exports.setSettings(device_data, {
+							volumeMultiplier: volumeMultiplier.toString()
+						}, function(err, settings) {
+							if (err === null) {
+								callback(settings.volumeMultiplier, true);
+							} else {
+								callback(err, false);
+							}
+						});
+					});
+				}
+			}, command.time, hostIP, device_data, command, callback);
+		}
+	};
+var sendCommandToDevice = function(device, command, callbackCommand) {
+		if (typeof device !== 'object' && typeof device !== 'undefined') {
+			device = getDeviceByData(device);
+		}
+		module.exports.getSettings(device, function(err, settings) {
+			if (settings !== undefined) {
+				sendCommand(settings.settingIPAddress, command, callbackCommand);
+			}
+		});
+	};
+var sendCommand = function(hostIP, command, callbackCommand) {
+		// clear variable that holds data received from the AVR
+		receivedData = "";
+		// for logging strip last char which will be the newline \n char
+		var displayCommand = command.substring(0, command.length - 1);
+		//Homey.log("Pioneer app - sending " + displayCommand + " to " + hostIP);
+		var client = new net.Socket();
+		client.on('error', function(err) {
+			Homey.log("Pioneer app - IP socket error: " + err.message);
+			if (err.message.indexOf("ECONNREFUSED") >= 0) {
+				telnetIndex++;
+				if (telnetPort[telnetIndex] === undefined) {
+					telnetIndex = 0;
+				}
+			}
+		});
+		client.connect(telnetPort[telnetIndex], hostIP);
+		client.write(command);
+		// get a response
+		client.on('data', function(data) {
+			var tempData = data.toString().replace("\r", "");
+			//Homey.log("Pioneer app - got: " + tempData);
+			receivedData += tempData;
+		});
+		// after a delay, close connection
+		setTimeout(function() {
+			receivedData = receivedData.replace("\r", "");
+			//Homey.log("Pioneer app - closing connection, receivedData: " + receivedData);
+			client.end();
+			// if we got a callback function, call it with the receivedData
+			if (callbackCommand && typeof(callbackCommand) === "function") {
+				callbackCommand(receivedData);
+			}
+		}, 1000);
+	};
+var searchForInputsByValue = function(value) {
+		// for now, consider all known Pioneer inputs
+		var possibleInputs = allPossibleInputs;
+		var tempItems = [];
+		for (var i = 0; i < possibleInputs.length; i++) {
+			var tempInput = possibleInputs[i];
+			if (tempInput.friendlyName.toLowerCase().indexOf(value.toLowerCase()) >= 0) {
+				tempItems.push({
+					icon: "",
+					name: tempInput.friendlyName,
+					inputName: tempInput.inputName
+				});
+			}
+		}
+		return tempItems;
+	};
+// a helper method to get a device from the devices list by it's device_data object
+var getDeviceByData = function(device_data) {
+		var device = null;
+		if (typeof device_data !== 'undefined') {
+			if (typeof device_data === 'object') {
+				device = devices[device_data.id];
+			} else {
+				device = devices[device_data].data;
+			}
+		}
+		if (typeof device === 'undefined' || device === null) {
+			return new Error("invalid_device");
+		} else {
+			return device;
+		}
+	};
+// a helper method to add a device to the devices list
+var initDevice = function(device_data) {
+		devices[device_data.id] = {};
+		devices[device_data.id].state = {
+			onoff: true
+		};
+		devices[device_data.id].data = device_data;
+		module.exports.getSettings(device_data, function(err, settings) {
+			devices[device_data.id].settings = settings;
+			if (settings.telnetPort !== undefined && settings.telnetPort !== null && settings.telnetPort > 0) {
+				telnetPort.push(settings.telnetPort);
+			}
+		});
+	};
