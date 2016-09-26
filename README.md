@@ -37,13 +37,19 @@ This app lets you control a Pioneer VSX amplifier from within flows on a Homey d
 * Improved: Yes no text in flow condition
 * Improved: Uniformity in action flows by selecting first device witch was not the case by changing source.
 
+##Version 1.3.1
+
+* Fixed: API callback issues, after upgrading to Homey 0.10.x
+
 ##Supported devices
 
 ###Confirmed
 * Pioneer SC-2023-K
+* Pioneer SC-LX57
 * Pioneer VSX-528
 * Pioneer VSX-920
 * Pioneer VSX-921
+* Pioneer VSX-924
 
 ###Unconfirmed
 * Pioneer SC-1223
