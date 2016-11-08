@@ -163,23 +163,40 @@ module.exports.capabilities = {
 		get: function(device_data, callbackCapability) {
 			var device = getDeviceByData(device_data);
 			if (device instanceof Error) return callback(device);
-			var deviceIP = device.settings.settingIPAddress;
-			device.state.onoff = powerOnOff(deviceIP, function(onoff) {
-				device.state.onoff = onoff;
-				Homey.log('Pioneer app - telling capability power of ' + deviceIP + ' is ' + (device.state.onoff ? 'on' : 'off'));
-				callbackCapability(null, device.state.onoff);
-			});
+			var deviceIP = null;
+			if(device.settings !== undefined && device.settings.settingIPAddress !== undefined) {
+				deviceIP = device.settings.settingIPAddress;
+			} else if(device.id !== undefined) {
+				deviceIP = device.id;
+			} else if(device.data !== undefined && device.data.id !== undefined) {
+				deviceIP = device.data.id;
+			}
+			if(deviceIP !== null) {
+				device.state.onoff = powerOnOff(deviceIP, function(onoff) {
+					device.state.onoff = onoff;
+					Homey.log('Pioneer app - telling capability power of ' + deviceIP + ' is ' + (device.state.onoff ? 'on' : 'off'));
+					callbackCapability(null, device.state.onoff);
+				});
+			}
 		},
 		set: function(device_data, onoff, callbackCapability) {
 			var device = getDeviceByData(device_data);
 			if (device instanceof Error) return callback(device);
-			var deviceIP = device.settings.settingIPAddress;
-			device.state.onoff = onoff;
-			Homey.log('Pioneer app - Setting device_status of ' + deviceIP + ' to ' + (device.state.onoff ? 'power on' : 'power off'));
-			if (device.state.onoff) {
-				powerOn(deviceIP);
-			} else {
-				powerOff(deviceIP);
+			var deviceIP = null;
+			if(device.settings !== undefined && device.settings.settingIPAddress !== undefined) {
+				deviceIP = device.settings.settingIPAddress;
+			} else if(device.id !== undefined) {
+				deviceIP = device.id;
+			} else if(device.data !== undefined && device.data.id !== undefined) {
+				deviceIP = device.data.id;
+			}
+			if(deviceIP !== null) {
+				Homey.log('Pioneer app - Setting device_status of ' + deviceIP + ' to ' + (device.state.onoff ? 'power on' : 'power off'));
+				if (device.state.onoff) {
+					powerOn(deviceIP);
+				} else {
+					powerOff(deviceIP);
+				}
 			}
 			callbackCapability(null, device.state.onoff);
 		}
