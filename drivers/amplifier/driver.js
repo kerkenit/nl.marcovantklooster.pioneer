@@ -162,7 +162,15 @@ module.exports.capabilities = {
 	onoff: {
 		get: function(device_data, callbackCapability) {
 			var device = getDeviceByData(device_data);
-			if (device instanceof Error) return callback(device);
+			if (device instanceof Error) {
+				Homey.manager('notifications').createNotification({
+				    excerpt: 'Incorrect Pioneer device. Please re-add. Device: ' + (device_data !== undefined && device_data !== null && device_data.id !== undefined && device_data.id !== null ? device_data.id :  JSON.stringify(device_data))
+				}, function( err, notification ){
+				    if( err ) return console.error( err );
+				    Homey.log( 'Incorrect Pioneer device. Please re-add. Device: ' + (device_data !== undefined && device_data !== null && device_data.id !== undefined && device_data.id !== null ? device_data.id :  JSON.stringify(device_data)));
+				});
+				return callbackCapability(null, false);
+			};
 			var deviceIP = null;
 			if(device.settings !== undefined && device.settings.settingIPAddress !== undefined) {
 				deviceIP = device.settings.settingIPAddress;
@@ -181,7 +189,15 @@ module.exports.capabilities = {
 		},
 		set: function(device_data, onoff, callbackCapability) {
 			var device = getDeviceByData(device_data);
-			if (device instanceof Error) return callback(device);
+			if (device instanceof Error) {
+				Homey.manager('notifications').createNotification({
+				    excerpt: 'Incorrect Pioneer device. Please re-add. Device: ' + (device_data !== undefined && device_data !== null && device_data.id !== undefined && device_data.id !== null ? device_data.id :  JSON.stringify(device_data))
+				}, function( err, notification ){
+				    if( err ) return console.error( err );
+				    Homey.log( 'Incorrect Pioneer device. Please re-add. Device: ' + (device_data !== undefined && device_data !== null && device_data.id !== undefined && device_data.id !== null ? device_data.id :  JSON.stringify(device_data)));
+				});
+				return callbackCapability(null, false);
+			};
 			var deviceIP = null;
 			if(device.settings !== undefined && device.settings.settingIPAddress !== undefined) {
 				deviceIP = device.settings.settingIPAddress;

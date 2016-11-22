@@ -41,6 +41,10 @@ This app lets you control a Pioneer VSX amplifier from within flows on a Homey d
 
 * Fixed: API callback issues, after upgrading to Homey 0.10.x
 
+##Version 1.3.3
+
+* Added: Notification of incorrect device
+
 ##Supported devices
 
 ###Confirmed
