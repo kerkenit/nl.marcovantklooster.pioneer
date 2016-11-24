@@ -171,7 +171,7 @@ module.exports.capabilities = {
 				deviceIP = device.settings.settingIPAddress;
 			} else if(device.id !== undefined) {
 				deviceIP = device.id;
-			} else if(device.data !== undefined && device.data.id !== undefined) {
+			} else if(device !== undefined && device.data !== undefined && device.data.id !== undefined) {
 				deviceIP = device.data.id;
 			}
 			if(deviceIP !== null) {
@@ -458,7 +458,7 @@ var getDeviceByData = function(device_data) {
 			if (typeof device_data === 'object') {
 				device = devices[device_data.id];
 			} else {
-				device = devices[device_data].data;
+				device = devices[device_data];
 			}
 		}
 		if (typeof device === 'undefined' || device === null) {
