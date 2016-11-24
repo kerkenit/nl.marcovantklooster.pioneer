@@ -51,6 +51,7 @@ This app lets you control a Pioneer VSX amplifier from within flows on a Homey d
 * Pioneer SC-2023-K
 * Pioneer SC-LX57
 * Pioneer VSX-528
+* Pioneer VSX-824
 * Pioneer VSX-920
 * Pioneer VSX-921
 * Pioneer VSX-924
