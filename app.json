@@ -4,7 +4,7 @@
 		"en": "Pioneer",
 		"nl": "Pioneer"
 	},
-	"version": "1.3.3",
+	"version": "1.3.4",
 	"compatibility": "0.x || 1.x",
 	"author": {
 		"name": "Marco van 't Klooster",
