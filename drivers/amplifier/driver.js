@@ -143,7 +143,6 @@ module.exports.settings = function(device_data, newSettingsObj, oldSettingsObj, 
 			detectVolumeMultiplier(newSettingsObj.settingIPAddress, device_data, function(message, status) {
 				if (status) {
 					if (message !== null) {
-						newSettingsObj.volumeMultiplier = message;
 						callback(null, true);
 					} else {
 						callback(message, status);
@@ -161,50 +160,33 @@ module.exports.settings = function(device_data, newSettingsObj, oldSettingsObj, 
 module.exports.capabilities = {
 	onoff: {
 		get: function(device_data, callbackCapability) {
-			var device = getDeviceByData(device_data);
-			if (device instanceof Error) {
-				module.exports.setUnavailable( device_data, "Incorrect Pioneer device. Please re-add this device" );
-				return callbackCapability(null, false);
-			};
-			var deviceIP = null;
-			if(device.settings !== undefined && device.settings.settingIPAddress !== undefined) {
-				deviceIP = device.settings.settingIPAddress;
-			} else if(device.id !== undefined) {
-				deviceIP = device.id;
-			} else if(device !== undefined && device.data !== undefined && device.data.id !== undefined) {
-				deviceIP = device.data.id;
-			}
-			if(deviceIP !== null) {
-				device.state.onoff = powerOnOff(deviceIP, function(onoff) {
-					device.state.onoff = onoff;
-					Homey.log('Pioneer app - telling capability power of ' + deviceIP + ' is ' + (device.state.onoff ? 'on' : 'off'));
-					callbackCapability(null, device.state.onoff);
-				});
-			}
+			getDeviceIP(device_data, function(deviceIP, status) {
+				if (status) {
+					powerOnOff(deviceIP, function(onoff) {
+						Homey.log('Pioneer app - telling capability power of ' + deviceIP + ' is ' + (onoff ? 'on' : 'off'));
+						callbackCapability(null, onoff);
+					});
+				} else {
+					module.exports.setUnavailable(device_data, "Incorrect Pioneer device. Please re-add this device");
+					return callbackCapability(null, false);
+				}
+			});
 		},
 		set: function(device_data, onoff, callbackCapability) {
-			var device = getDeviceByData(device_data);
-			if (device instanceof Error) {
-				module.exports.setUnavailable( device_data, "Incorrect Pioneer device. Please re-add this device" );
-				return callbackCapability(null, false);
-			};
-			var deviceIP = null;
-			if(device.settings !== undefined && device.settings.settingIPAddress !== undefined) {
-				deviceIP = device.settings.settingIPAddress;
-			} else if(device.id !== undefined) {
-				deviceIP = device.id;
-			} else if(device.data !== undefined && device.data.id !== undefined) {
-				deviceIP = device.data.id;
-			}
-			if(deviceIP !== null) {
-				Homey.log('Pioneer app - Setting device_status of ' + deviceIP + ' to ' + (device.state.onoff ? 'power on' : 'power off'));
-				if (device.state.onoff) {
-					powerOn(deviceIP);
+			getDeviceIP(device_data, function(deviceIP, status) {
+				if (status) {
+					Homey.log('Pioneer app - Setting device_status of ' + deviceIP + ' to ' + (onoff ? 'power on' : 'power off'));
+					if (onoff) {
+						powerOn(deviceIP);
+					} else {
+						powerOff(deviceIP);
+					}
+					callbackCapability(null, onoff);
 				} else {
-					powerOff(deviceIP);
+					module.exports.setUnavailable(device_data, "Incorrect Pioneer device. Please re-add this device");
+					return callbackCapability(null, false);
 				}
-			}
-			callbackCapability(null, device.state.onoff);
+			});
 		}
 	}
 };
@@ -315,8 +297,7 @@ var volumeDown = function(hostIP, targetVolume) {
 var changeVolume = function(device_data, targetVolume) {
 		var device = getDeviceByData(device_data);
 		if (device.settings !== undefined) {
-
-			var volumeMultiplier = "0.4897959183673469";
+			var volumeMultiplier = 0.4897959183673469;
 			if (device.settings.volumeMultiplier !== undefined && device.settings.volumeMultiplier !== null && device.settings.volumeMultiplier.length > 0) {
 				volumeMultiplier = Number(device.settings.volumeMultiplier);
 			}
@@ -324,7 +305,6 @@ var changeVolume = function(device_data, targetVolume) {
 				var currentLevel = Number(response.replace(/^\D+/g, ''));
 				var d3 = currentLevel * volumeMultiplier;
 				var d4 = targetVolume - d3;
-
 				if (d4 > 0.00) {
 					volumeUp(device_data, Math.round(d4));
 				} else if (d4 < 0.00) {
@@ -380,7 +360,7 @@ var detectVolumeMultiplier = function(hostIP, device_data, callback) {
 							volumeMultiplier: volumeMultiplier.toString()
 						}, function(err, settings) {
 							if (err === null) {
-								callback(settings.volumeMultiplier, true);
+								callback(volumeMultiplier, true);
 							} else {
 								callback(err, false);
 							}
@@ -391,12 +371,9 @@ var detectVolumeMultiplier = function(hostIP, device_data, callback) {
 		}
 	};
 var sendCommandToDevice = function(device, command, callbackCommand) {
-		if (typeof device !== 'object' && typeof device !== 'undefined') {
-			device = getDeviceByData(device);
-		}
-		module.exports.getSettings(device, function(err, settings) {
-			if (settings !== undefined) {
-				sendCommand(settings.settingIPAddress, command, callbackCommand);
+		getDeviceIP(device, function(deviceIP, status) {
+			if (status) {
+				sendCommand(deviceIP, command, callbackCommand);
 			}
 		});
 	};
@@ -450,6 +427,23 @@ var searchForInputsByValue = function(value) {
 			}
 		}
 		return tempItems;
+	};
+var getDeviceIP = function(device, callback) {
+		if (typeof device !== 'object' && typeof device !== 'undefined') {
+			device = getDeviceByData(device);
+		}
+		if (device instanceof Error) {
+			return callback(null, false);
+		}
+		var deviceIP = null;
+		if (device.settings !== undefined && device.settings.settingIPAddress !== undefined) {
+			deviceIP = device.settings.settingIPAddress;
+		} else if (device.id !== undefined) {
+			deviceIP = device.id;
+		} else if (device !== undefined && device.data !== undefined && device.data.id !== undefined) {
+			deviceIP = device.data.id;
+		}
+		callback(deviceIP, true);
 	};
 // a helper method to get a device from the devices list by it's device_data object
 var getDeviceByData = function(device_data) {
