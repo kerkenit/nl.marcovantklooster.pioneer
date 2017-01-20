@@ -12,6 +12,11 @@ This app lets you control a Pioneer VSX amplifier from within flows on a Homey d
 
 * Mute and unmute
 
+## Like it?
+
+Do you want to support me to continue development?
+[![PayPal](https://www.paypalobjects.com/webstatic/en_US/i/btn/png/blue-pill-paypal-34px.png)](http://PayPal.Me/KerkEnIT)
+
 ##Version 1.0.0
 
 * Added: Flow condition to check if your amplifier is on or off
