@@ -180,6 +180,27 @@
 				}
 			}]
 		}, {
+			"id": "rawCommand",
+			"title": {
+				"en": "Raw amplifier command",
+				"nl": "Schakel input"
+			},
+			"args": [{
+				"name": "device",
+				"type": "device",
+				"placeholder": {
+					"en": "Select amplifier",
+					"nl": "Selecteer versterker"
+				}
+			}, {
+				"name": "command",
+				"type": "text",
+				"placeholder": {
+					"en": "Command",
+					"nl": "Command"
+				}
+			}]
+		}, {
 			"id": "volumeUp",
 			"title": {
 				"en": "Volume up",
