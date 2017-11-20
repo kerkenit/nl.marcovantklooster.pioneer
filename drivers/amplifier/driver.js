@@ -70,6 +70,9 @@ var allPossibleInputs = [{
 	inputName: "24FN\r",
 	friendlyName: "HDMI6"
 }, {
+	inputName: "26FN\r",
+	friendlyName: "MEDIA SERVER (Spotify)"
+}, {
 	inputName: "48FN\r",
 	friendlyName: "MHL"
 }, {
@@ -215,6 +218,10 @@ Homey.manager('flow').on('action.changeInput.input.autocomplete', function(callb
 	var items = searchForInputsByValue(inputSearchString);
 	callback(null, items);
 });
+Homey.manager('flow').on('action.rawCommand', function(callback, args) {
+	rawCommand(args.device, args.command);
+	callback(null, true);
+});
 Homey.manager('flow').on('action.volumeUp', function(callback, args) {
 	var targetVolume = args.volume;
 	volumeUp(args.device, targetVolume);
@@ -277,6 +284,9 @@ var powerOnOff = function(hostIP, callback) {
 var changeInputSource = function(hostIP, input) {
 		var command = input;
 		sendCommandToDevice(hostIP, command);
+	};
+var rawCommand = function(hostIP, command) {
+		sendCommandToDevice(hostIP, command + "\r");
 	};
 var volumeUp = function(hostIP, targetVolume) {
 		var command = 'VU\r';
