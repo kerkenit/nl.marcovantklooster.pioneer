@@ -50,6 +50,10 @@ Do you want to support me to continue development?
 
 * Added: Notification of incorrect device
 
+##Version 1.3.6
+
+* Fixed: Issue with GAME port
+
 ##Supported devices
 
 ###Confirmed
