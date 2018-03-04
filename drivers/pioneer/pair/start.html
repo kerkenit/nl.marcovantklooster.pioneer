@@ -1,0 +1,87 @@
+<script>
+Homey.setTitle( __('pair.start.title') );
+
+Homey.on('error', function( errortype, callback ){
+
+	if (errortype == 'error') {
+		Homey.alert(__('pair.start.error'), 'error');
+		Homey.done();
+	}
+
+	if (errortype == 'nosettings') {
+		Homey.alert(__('pair.start.nosettings'), 'error');
+		Homey.done();
+	}
+})
+
+function saveSettings () {
+	$('.ssh-err-msg').text('');
+	// variables
+	var inputIPAddress = $('#ipAddress').val();
+	var inputDeviceName = $('#deviceName').val();
+
+	// If required values are filled in
+	// FIXME: should check if this is a real IPv4 address
+	if (inputIPAddress != '') {
+
+		var device = {
+			data: {
+				id: 'pioneer_' + inputIPAddress
+			},
+			name: inputDeviceName,
+			settings: {
+				ip: inputIPAddress,
+				volumeMultiplier: "0.4897959183673469",
+				telnetPort: 8102
+			}
+		};
+
+		Homey.emit( 'list_devices', device, function ( err, result ) {
+			if(err !== null) {
+				$('.ssh-err-msg').text(err);
+			} else {
+				//Successfully connected
+				Homey.addDevice(device, function( err, result ){
+					if( err ) return console.error(err);
+					console.log( result);
+				});
+				//Done pairing
+				Homey.done();
+			}
+		} );
+
+	} else {
+		$('.ssh-err-msg').text(__('pair.start.required'));
+	}
+}
+
+</script>
+    <p data-i18n="pair.start.intro">enter IP address and name</p>
+		<style>
+			.pairSettings {
+				font-size:16px;
+				border:none;
+			}
+
+			input {
+				font-size:16px;
+				border: 1px solid #ccc;
+			}
+		</style>
+		<table class="pairSettings">
+			<tr>
+				<td style="width:100px;" data-i18n="pair.start.ipAddress">IP</td>
+				<td><input id="ipAddress" type="text" value="" placeholder="192.168.1.10"/></td>
+			</tr>
+			<tr>
+				<td style="width:100px;" data-i18n="pair.start.deviceName">Name</td>
+				<td><input id="deviceName" type="text" value="Pioneer VSX" placeholder="Pioneer VSX"/></td>
+			</tr>
+		</table>
+		<p>
+		&nbsp;
+	  </p>
+<fieldset>
+    <button class="button" data-i18n="pair.start.saveSettings" onclick="saveSettings()">Save</button>
+</fieldset>
+<p class="ssh-err-msg" style="color: #ff6300;"></p>

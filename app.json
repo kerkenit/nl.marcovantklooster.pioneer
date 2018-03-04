@@ -30,6 +30,132 @@
 		"large": "./assets/images/large.jpg",
 		"small": "./assets/images/small.jpg"
 	},
+	"capabilities": {
+		"pioneer_source": {
+			"type": "enum",
+			"title": {
+				"en": "Source",
+				"nl": "Ingang"
+			},
+			"desc": {
+				"en": "Input of the pioneer",
+				"nl": "Ingang van de pioneer"
+			},
+			"values": [{
+				"id": "25FN",
+				"title": {
+					"en": "BD"
+				}
+			}, {
+				"id": "04FN",
+				"title": {
+					"en": "DVD"
+				}
+			}, {
+				"id": "15FN",
+				"title": {
+					"en": "DVR/BDR"
+				}
+			}, {
+				"id": "06FN",
+				"title": {
+					"en": "SAT/CBL"
+				}
+			}, {
+				"id": "FN49",
+				"title": {
+					"en": "GAME"
+				}
+			}, {
+				"id": "01FN",
+				"title": {
+					"en": "CD"
+				}
+			}, {
+				"id": "05FN",
+				"title": {
+					"en": "TV"
+				}
+			}, {
+				"id": "02FN",
+				"title": {
+					"en": "Tuner"
+				}
+			}, {
+				"id": "38FN",
+				"title": {
+					"en": "Internet Radio"
+				}
+			}, {
+				"id": "45FN",
+				"title": {
+					"en": "Favorites"
+				}
+			}, {
+				"id": "17FN",
+				"title": {
+					"en": "iPod/USB"
+				}
+			}, {
+				"id": "10FN",
+				"title": {
+					"en": "VIDEO 1"
+				}
+			}, {
+				"id": "14FN",
+				"title": {
+					"en": "VIDEO 2"
+				}
+			}, {
+				"id": "19FN",
+				"title": {
+					"en": "HDMI1"
+				}
+			}, {
+				"id": "20FN",
+				"title": {
+					"en": "HDMI2"
+				}
+			}, {
+				"id": "21FN",
+				"title": {
+					"en": "HDMI3"
+				}
+			}, {
+				"id": "22FN",
+				"title": {
+					"en": "HDMI4"
+				}
+			}, {
+				"id": "23FN",
+				"title": {
+					"en": "HDMI5"
+				}
+			}, {
+				"id": "24FN",
+				"title": {
+					"en": "HDMI6"
+				}
+			}, {
+				"id": "48FN",
+				"title": {
+					"en": "MHL"
+				}
+			}, {
+				"id": "03FN",
+				"title": {
+					"en": "CD-R/TAPE"
+				}
+			}, {
+				"id": "00FN",
+				"title": {
+					"en": "PHONO"
+				}
+			}],
+			"getable": true,
+			"setable": true
+		}
+	},
 	"category": "appliances",
 	"description": {
 		"en": "Pioneer VSX control app for Homey",
@@ -39,16 +165,111 @@
 		"net": "*"
 	},
 	"drivers": [{
+		"id": "pioneer",
+		"name": {
+			"en": "Pioneer",
+			"nl": "Pioneer"
+		},
+		"images": {
+			"large": "drivers/pioneer/assets/images/large.jpg",
+			"small": "drivers/pioneer/assets/images/small.jpg"
+		},
+		"class": "amplifier",
+		"capabilities": ["onoff", "volume_set", "volume_mute", "volume_up", "volume_down", "pioneer_source"],
+		"capabilitiesOptions": {
+			"volume_set": {
+				"min": 0,
+				"max": 73,
+				"step": 1.0
+			}
+		},
+		"mobile": {
+			"components": [{
+				"id": "toggle",
+				"options": {
+					"showTitle": true
+				},
+				"capabilities": ["onoff"]
+			}, {
+				"id": "slider",
+				"options": {
+					"showTitle": true
+				},
+				"capabilities": ["volume_set"]
+			}, {
+				"id": "picker",
+				"options": {
+					"showTitle": true
+				},
+				"capabilities": ["pioneer_source"]
+			}]
+		},
+		"pair": [{
+			"id": "start"
+		}, {
+			"id": "list_devices",
+			"template": "list_devices",
+			"navigation": {
+				"next": "add_amplifier"
+			}
+		}, {
+			"id": "add_amplifier",
+			"template": "add_devices"
+		}],
+		"settings": [{
+			"type": "group",
+			"label": {
+				"en": "Amplifier settings",
+				"nl": "Versterker instellingen"
+			},
+			"children": [{
+				"id": "ip",
+				"type": "text",
+				"label": {
+					"en": "IP address of your Pioneer",
+					"nl": "IP adres van de Pioneer"
+				},
+				"value": ""
+			}, {
+				"id": "telnetPort",
+				"type": "number",
+				"label": {
+					"en": "Telnet port of your Pioneer",
+					"nl": "Telnet poort van de Pioneer"
+				},
+				"value": 8102,
+				"attr": {
+					"min": 1,
+					"max": 65535
+				}
+			}]
+		}, {
+			"type": "group",
+			"label": {
+				"en": "Calibrate maximum volume",
+				"nl": "Kalibreer maximale volume"
+			},
+			"children": [{
+				"id": "volumeMultiplier",
+				"type": "text",
+				"label": {
+					"en": "WARNING! Turn OFF your music! When this field is empty your Homey will, on save, get the maximum volume of your Pioneer.",
+					"nl": "WAARSCHUWING! Zet de muziek UIT! Wanneer de gegevens hiernaast leeg zijn zal Homey, bij het opslaan, het maximale volume van uw Pioneer ophalen."
+				},
+				"value": ""
+			}]
+		}]
+	}, {
 		"id": "amplifier",
 		"name": {
-			"en": "Pioneer VSX amplifier",
-			"nl": "Pioneer VSX versterker"
+			"en": "Obsolete",
+			"nl": "Verouderd"
 		},
 		"images": {
 			"large": "drivers/amplifier/assets/images/large.jpg",
 			"small": "drivers/amplifier/assets/images/small.jpg"
 		},
-		"class": "other",
+		"class": "amplifier",
 		"capabilities": ["onoff"],
 		"mobile": {
 			"components": [{
@@ -119,6 +340,70 @@
 		}]
 	}],
 	"flow": {
+		"triggers": [{
+			"id": "source",
+			"title": {
+				"en": "Input is changed",
+				"nl": "Ingang is veranderd"
+			},
+			"tokens": [{
+				"name": "source",
+				"type": "string",
+				"title": {
+					"en": "Input",
+					"nl": "Ingang"
+				},
+				"example": {
+					"en": "TV",
+					"nl": "TV"
+				}
+			}],
+			"args": [{
+				"name": "device",
+				"type": "device",
+				"filter": "driver_id=pioneer"
+			}]
+		}],
+		"conditions": [{
+			"id": "powerOnOff",
+			"title": {
+				"en": "Amplifier is !{{on|off}}",
+				"nl": "Versterker is !{{aan|uit}}"
+			},
+			"args": [{
+				"name": "device",
+				"type": "device",
+				"placeholder": {
+					"en": "Select amplifier",
+					"nl": "Selecteer versterker"
+				}
+			}]
+		}, {
+			"id": "muteOnOff",
+			"title": {
+				"en": "Amplifier !{{is|is not}} muted",
+				"nl": "Versterker !{{is|is niet}} gedempt"
+			},
+			"args": [{
+				"name": "device",
+				"type": "device",
+				"placeholder": {
+					"en": "Select amplifier",
+					"nl": "Selecteer versterker"
+				}
+			}]
+		}, {
+			"id": "get_volume_mute",
+			"title": {
+				"en": "Pioneer !{{is|is not}} muted",
+				"nl": "Pioneer !{{is|is niet}} gedempt"
+			},
+			"args": [{
+				"name": "device",
+				"type": "device",
+				"filter": "driver_id=pioneer"
+			}]
+		}],
 		"actions": [{
 			"id": "powerOn",
 			"title": {
@@ -169,6 +454,24 @@
 				}
 			}]
 		}, {
+			"id": "change_input",
+			"title": {
+				"en": "Switch input",
+				"nl": "Wijzig ingang"
+			},
+			"args": [{
+				"name": "device",
+				"type": "device",
+				"filter": "driver_id=pioneer"
+			}, {
+				"name": "input",
+				"type": "autocomplete",
+				"placeholder": {
+					"en": "Choose a input",
+					"nl": "Kies een ingang"
+				}
+			}]
+		}, {
 			"id": "volumeUp",
 			"title": {
 				"en": "Volume up",
@@ -181,6 +484,26 @@
 					"en": "Select amplifier",
 					"nl": "Selecteer versterker"
 				}
+			}, {
+				"name": "volume",
+				"type": "number",
+				"min": 1,
+				"max": 73,
+				"placeholder": {
+					"en": "Steps volume up",
+					"nl": "Stappen volume omhoog"
+				}
+			}]
+		}, {
+			"id": "change_volume_up",
+			"title": {
+				"en": "Volume up",
+				"nl": "Volume omhoog"
+			},
+			"args": [{
+				"name": "device",
+				"type": "device",
+				"filter": "driver_id=pioneer"
 			}, {
 				"name": "volume",
 				"type": "number",
@@ -215,6 +538,26 @@
 				}
 			}]
 		}, {
+			"id": "change_volume_down",
+			"title": {
+				"en": "Volume down",
+				"nl": "Volume oplaag"
+			},
+			"args": [{
+				"name": "device",
+				"type": "device",
+				"filter": "driver_id=pioneer"
+			}, {
+				"name": "volume",
+				"type": "number",
+				"min": 1,
+				"max": 73,
+				"placeholder": {
+					"en": "Steps volume down",
+					"nl": "Stappen volume oplaag"
+				}
+			}]
+		}, {
 			"id": "changeVolume",
 			"title": {
 				"en": "Set volume",
@@ -238,10 +581,30 @@
 				}
 			}]
 		}, {
+			"id": "change_volume_set",
+			"title": {
+				"en": "Set volume",
+				"nl": "Stel volume in"
+			},
+			"args": [{
+				"name": "device",
+				"type": "device",
+				"filter": "driver_id=pioneer"
+			}, {
+				"name": "volume",
+				"type": "number",
+				"min": 0,
+				"max": 73,
+				"placeholder": {
+					"en": "Volume level",
+					"nl": "Volume niveau"
+				}
+			}]
+		}, {
 			"id": "mute",
 			"title": {
 				"en": "Set mute",
-				"nl": "Scahekel dempen aan of uit"
+				"nl": "Schakel dempen aan of uit"
 			},
 			"args": [{
 				"name": "device",
@@ -267,34 +630,32 @@
 					}
 				}]
 			}]
-		}],
-		"conditions": [{
-			"id": "powerOnOff",
-			"title": {
-				"en": "Amplifier is !{{on|off}}",
-				"nl": "Versterker is !{{aan|uit}}"
-			},
-			"args": [{
-				"name": "device",
-				"type": "device",
-				"placeholder": {
-					"en": "Select amplifier",
-					"nl": "Selecteer versterker"
-				}
-			}]
 		}, {
-			"id": "muteOnOff",
+			"id": "change_volume_mute",
 			"title": {
-				"en": "Amplifier !{{is|is not}} muted",
-				"nl": "Versterker !{{is|is niet}} gedempt"
+				"en": "Set mute",
+				"nl": "Schakel dempen aan of uit"
 			},
 			"args": [{
 				"name": "device",
 				"type": "device",
-				"placeholder": {
-					"en": "Select amplifier",
-					"nl": "Selecteer versterker"
-				}
+				"filter": "driver_id=pioneer"
+			}, {
+				"name": "onoff",
+				"type": "dropdown",
+				"values": [{
+					"id": "on",
+					"label": {
+						"en": "Mute",
+						"nl": "Dempen aan"
+					}
+				}, {
+					"id": "off",
+					"label": {
+						"en": "Unmute",
+						"nl": "Dempen uit"
+					}
+				}]
 			}]
 		}]
 	}

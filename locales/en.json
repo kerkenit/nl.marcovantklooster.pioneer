@@ -9,5 +9,8 @@
             "deviceName":"Device name",
             "saveSettings":"Save settings"
         }
-    }
+    },
+    "ECONNREFUSED": "Check connection and/or enable Network Standby.",
+    "EHOSTUNREACH": "Check connection and/or ip address.",
+    "ETIMEDOUT": "Bad conenction. Please reboot your pioneer."
 }

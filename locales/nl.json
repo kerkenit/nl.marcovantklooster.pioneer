@@ -9,5 +9,8 @@
             "deviceName":"Naam van het apparaat",
             "saveSettings":"Gegevens opslaan"
         }
-    }
+    },
+    "ECONNREFUSED": "Controleer verbinding en/of schakel 'Network Standby' in.",
+    "EHOSTUNREACH": "Controleer verbinding en/of ip adres.",
+    "ETIMEDOUT": "Slechte verbinding. Herstart a.u.b. je pioneer."
 }
