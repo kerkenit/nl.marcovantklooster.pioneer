@@ -4,7 +4,7 @@
 		"en": "Pioneer",
 		"nl": "Pioneer"
 	},
-	"version": "1.3.5",
+	"version": "1.3.6",
 	"compatibility": "0.x || 1.x",
 	"author": {
 		"name": "Marco van 't Klooster",
@@ -24,17 +24,6 @@
 			"name": "Raymond Julin",
 			"email": "raymond.julin@gmail.com",
 			"website": "http://raymondjulin.com"
-		}],
-		"translators": [{
-			"name": "Marco van 't Klooster",
-			"email": "info@marcovantklooster.nl",
-			"website": "http://www.marcovantklooster.nl",
-			"languages": ["nl", "en"]
-		}, {
-			"name": "Marco van den Hout",
-			"email": "marco@vandenhout.org",
-			"website": "http://www.marcovandenhout.nl",
-			"languages": ["nl", "en"]
 		}]
 	},
 	"images": {

@@ -25,7 +25,7 @@ var allPossibleInputs = [{
 	inputName: "06FN\r",
 	friendlyName: "SAT/CBL"
 }, {
-	inputName: "FN49\r",
+	inputName: "49FN\r",
 	friendlyName: "GAME"
 }, {
 	inputName: "01FN\r",
