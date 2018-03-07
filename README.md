@@ -6,16 +6,9 @@ This app lets you control a Pioneer VSX amplifier from within flows on a Homey d
 
 * Turn on and off you amplifier in a flow card
 * Set volume up and down in a flow card
-* Change the input source of you VSX amplifier in a card
 
-##What doesn't:
-
-* Mute and unmute
-
-## Like it?
-
-Do you want to support me to continue development?
-[![PayPal](https://www.paypalobjects.com/webstatic/en_US/i/btn/png/blue-pill-paypal-34px.png)](http://PayPal.Me/KerkEnIT)
+* Change the input source of your VSX amplifier in a card
+* Mute and unmute your VSX amplifier
 
 ##Version 1.0.0
 
