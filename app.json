@@ -4,7 +4,7 @@
 		"en": "Pioneer",
 		"nl": "Pioneer"
 	},
-	"version": "1.3.7",
+	"version": "1.3.8",
 	"compatibility": "0.x || 1.x",
 	"author": {
 		"name": "Marco van 't Klooster",
@@ -15,7 +15,7 @@
 		"developers": [{
 			"name": "Marco van 't Klooster",
 			"email": "info@marcovantklooster.nl",
-			"website": "http://www.marcovantklooster.nl"
+			"website": "https://www.marcovantklooster.nl"
 		}, {
 			"name": "Marco van den Hout",
 			"email": "marco@vandenhout.org",
@@ -26,6 +26,14 @@
 			"website": "http://raymondjulin.com"
 		}]
 	},
+	"contributing": {
+        "donate": {
+            "paypal": {
+                "username": "kerkenit"
+            }
+        }
+	},
+    "athomForumDiscussionId": 1314,
 	"images": {
 		"large": "./assets/images/large.jpg",
 		"small": "./assets/images/small.jpg"
